@@ -344,5 +344,7 @@ app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'
 
 ui.timer(2.5, welcome_popup.open, once=True)
 
+ui.page_title(title="NotesCraft")
+
 # To start the Web UI
-ui.run()
+ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
