@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from Instructions_for_extraction import instructions
 
 # Load the .env file to get API key
-load_dotenv(dotenv_path="key.env")
+load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 

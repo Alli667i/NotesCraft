@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 from Instructions_for_Notes_genearation import for_detail_notes
 
-load_dotenv(dotenv_path="key.env")
+load_dotenv()
 
 
 
