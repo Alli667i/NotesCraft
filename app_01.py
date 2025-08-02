@@ -218,7 +218,7 @@ def main_page():
         ui.label('⚡ NotesCraft AI is just getting started!').classes('text-base font-semibold text-indigo-900 text-center')
         ui.label('This early version may not be perfect yet — but we’re improving it every day!').classes('text-sm text-gray-700 text-center px-6')
 
-    ui.timer(2.5, welcome_popup.open, once=True)
+    ui.timer(2.1, welcome_popup.open, once=True)
 
 ui.page_title(title="NotesCraft")
 ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), storage_secret='super-secret-key-123')
