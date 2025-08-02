@@ -11,11 +11,17 @@ from process_content_to_notes_base import generate_notes_from_content
 from process_to_word_02 import generate_word_file
 from process_pdf_to_Json import send_msg_to_ai
 import requests
+import secrets
 
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))
 
+
+
 @ui.page('/')
 def main_page():
+
+    ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
+
     session = app.storage.user
     session.uploaded_file_path = None
     session.uploaded_file_name = "Notes"
@@ -140,13 +146,14 @@ def main_page():
 
             ui.notify(f"❌ Failed to send feedback: {e}", type="negative")
 
-
     with ui.column().classes('items-center w-full p-4 text-sm'):
 
-        ui.label('📘 NotesCraft AI — Your Personal Study Assistant') \
-            .classes('text-2xl md:text-4xl font-bold text-emerald-800 text-center mt-6')
+        with ui.row().classes('items-center justify-center gap-4'):
+            # ui.image('/assets/logo3.svg').classes('w-12 h-12 rounded-full')
+            ui.label('NotesCraft AI – Powered by Intelligence, Built for Learners') \
+                .classes('text-2xl md:text-4xl font-bold text-emerald-800 text-center')
 
-        ui.label('Upload your PDFs and get clean, exam-ready notes — instantly.') \
+        ui.label('Transform your PDFs into professional study notes using the power of AI.') \
             .classes('text-base md:text-lg text-gray-600 text-center mb-6 px-4')
 
         with ui.card().classes('w-full max-w-md p-4 bg-white shadow rounded-lg border border-gray-200'):
@@ -220,5 +227,9 @@ def main_page():
 
     ui.timer(1.0, welcome_popup.open, once=True)
 
-ui.page_title(title="NotesCraft")
-ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), storage_secret='super-secret-key-123')
+ui.run(
+    host='0.0.0.0',
+    port=int(os.environ.get('PORT', 8080)),
+    storage_secret=os.environ.get('STORAGE_SECRET', secrets.token_hex(32)),
+    title='NotesCraft AI – Smart Notes Maker'
+)
