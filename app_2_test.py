@@ -224,10 +224,11 @@ with ui.column().classes(
 
     # 💡 Heading
     with ui.column().classes('w-full items-center'):
-        ui.label('📘 NotesCraft AI – Smart Notes Maker').classes(
-            'text-3xl sm:text-5xl font-bold text-emerald-700 mb-8 text-center tracking-wide drop-shadow-md'
-        )
+        ui.label('NotesCraft AI – Powered by Intelligence, Built for Learners') \
+            .classes('text-2xl md:text-4xl font-bold text-emerald-800 text-center')
 
+        ui.label('Transform your PDFs into professional study notes using the power of AI.') \
+        .classes('text-base md:text-lg text-gray-600 text-center mb-6 px-4')
     # 📦 Main Content Card
     with ui.card().classes(
         'w-full max-w-2xl sm:max-w-3xl mx-auto p-4 sm:p-8 bg-white/90 backdrop-blur-md shadow-2xl '
