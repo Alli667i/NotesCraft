@@ -61,6 +61,8 @@ def process_with_ai():
         # When the notes generation will start it will hide the Start button
         generate_button.visible = False
 
+        selected_prompt.visible = False
+
         # For showing loading animation
         text_extraction_animation.visible = True
 
@@ -173,10 +175,14 @@ def reset_all():
 
     # Reset UI elements
     status_message.text = ''
+
     download_button.visible = False
+
     generate_button.visible = True
+
     word_file_generation_animation.visible = False
 
+    selected_prompt.visible = True
     # Reset selected option (optional)
     selected_prompt.value = list(note_options.keys())[0]  # default to first option
 
@@ -188,23 +194,6 @@ def reset_all():
 
     ui.notify('Reset successful! You can upload a new file.')
     ui.update()
-
-# def confirm_file_upload():
-#     upload_container.clear()
-#     with upload_container:
-#         with ui.card().classes(
-#             'w-full max-w-xl p-4 rounded-2xl border border-emerald-300 bg-emerald-50 '
-#             'text-center shadow-md flex items-center justify-center space-x-4'
-#         ):
-#             # Your PNG icon
-#             ui.image("/assets/Doc_pic.png").classes("w-10 h-10")  # Adjust size with w- and h- classes
-#
-#             # File name label
-#             ui.label(original_filename).classes(
-#                 'text-xl font-semibold text-emerald-800'
-#             )
-#
-#             ui.notify("File Uploaded Successfully")
 
 
 def confirm_file_upload():
@@ -235,10 +224,11 @@ with ui.column().classes(
 
     # 💡 Heading
     with ui.column().classes('w-full items-center'):
-        ui.label('📘 NotesCraft AI – Smart Notes Maker').classes(
-            'text-3xl sm:text-5xl font-bold text-emerald-700 mb-8 text-center tracking-wide drop-shadow-md'
-        )
+        ui.label('NotesCraft AI – Powered by Intelligence, Built for Learners') \
+            .classes('text-2xl md:text-4xl font-bold text-emerald-800 text-center')
 
+        ui.label('Transform your PDFs into professional study notes using the power of AI.') \
+        .classes('text-base md:text-lg text-gray-600 text-center mb-6 px-4')
     # 📦 Main Content Card
     with ui.card().classes(
         'w-full max-w-2xl sm:max-w-3xl mx-auto p-4 sm:p-8 bg-white/90 backdrop-blur-md shadow-2xl '
@@ -261,7 +251,9 @@ with ui.column().classes(
                 uploaded_file_path = Path(temp_file.name)
 
             upload_container.clear()
+
             with upload_container:
+
                 with ui.card().classes(
                         'w-full max-w-xl p-6 rounded-2xl border border-emerald-300 bg-emerald-50 '
                         'text-center shadow-md flex flex-col items-center justify-center'
@@ -290,6 +282,7 @@ with ui.column().classes(
 
 
         def render_upload():
+
             upload_container.clear()
 
             with upload_container:
@@ -325,6 +318,8 @@ with ui.column().classes(
         ).classes(
             'w-full max-w-md mx-auto mt-5 px-4 py-2 text-sm sm:text-base bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400'
         )
+
+        selected_prompt.visible = True
 
         # 🟡 Status Label
 
