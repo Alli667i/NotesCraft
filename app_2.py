@@ -101,7 +101,7 @@ def process_with_ai():
 
                 # Generate Notes from the extracted content and inform User
 
-                status_message.text = "Generating Notes  "
+                status_message.text = "Generating Notes   "
 
                 ui.update()
 

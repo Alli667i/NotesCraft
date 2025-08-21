@@ -1,92 +1,126 @@
+import asyncio
+import base64
+import mimetypes
 import os
-import secrets
-import time
-import threading
-from nicegui import ui, app
+import uuid
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-
+import secrets
+import requests
 from nicegui import ui, app, background_tasks, run
-
-from process_content_to_notes_02 import generate_notes_from_content
-from process_to_word_02 import generate_word_file
-from dotenv import load_dotenv
+from process_content_to_notes_base import generate_notes_from_content
 from process_pdf_to_Json import send_msg_to_ai
-from Instructions_for_Notes_genearation import for_detail_notes, for_summarize_notes
+from process_to_word_02 import generate_word_file
 
-load_dotenv()
-
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-
-# 📂 Make assets available
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))
 
-# 🎨 Global styling and animation script
+# Ensure root container fills full viewport on mobile
 ui.add_head_html("""
 <style>
-  body {
-    background-color: #f1f5f9;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  ::placeholder {
-    color: #94a3b8;
-  }
+html, body, #__nicegui_root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 </style>
-""")
-ui.add_head_html("""
-<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 """)
 
 
 @ui.page('/')
 def main_page():
+    ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
+
     session = app.storage.user
     session.uploaded_file_path = None
-    session.original_filename = "Notes"
+    session.uploaded_file_name = "Notes"
 
-    note_options = {
-        "📝  In-Depth Notes": for_detail_notes,
-        "📌 Quick Summary": for_summarize_notes
-    }
+    # --- Helper Functions ---
+    def report_error(Error):
+        if Error:
+            try:
+                requests.post(
+                    'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+                    json={"Error": Error},
+                )
+            except Exception as e:
+                print(f"Error reporting failed: {e}")
+
+    def reset_app():
+        session.uploaded_file_path = None
+        session.uploaded_file_name = "Notes"
+
+        status_label.text = ""
+        spinner.visible = False
+        animation_placeholder.visible = False
+        download_button.visible = False
+
+        generate_button.visible = True
+        reset_button.visible = False
+
+        # feedback_label.visible = False
+        # feedback_input.visible = False
+        # submit_feedback_button.visible = False
+
+        error_label.text = ""
+        try_again_button.visible = False
+
+        render_upload()
+        ui.notify("Ready for another file!")
+
+    # def submit_feedback():
+    #     feedback = feedback_input.value.strip()
+    #     if not feedback:
+    #         ui.notify("Please write something before submitting!", type="warning")
+    #         return
+    #
+    #     ui.notify("✉️ Sending your feedback...")
+    #
+    #     async def send_async():
+    #         try:
+    #             await asyncio.to_thread(
+    #                 requests.post,
+    #                 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+    #                 json={"Feedback": feedback},
+    #             )
+    #             feedback_input.value = ""
+    #             ui.notify("✅ Feedback sent!")
+    #         except Exception as e:
+    #             ui.notify(f"❌ Feedback failed: {e}", type="negative")
+    #
+    #     background_tasks.create(send_async())
 
     async def process_with_ai():
-        session = app.storage.user
-
         if not session.uploaded_file_path or not session.uploaded_file_path.exists():
             ui.notify(message='Please Upload a File', type='warning')
             return
 
         async def background_job():
-            with card:
-                generate_button.visible = False
-                try_again_button.visible = False
-                spinner.visible = True
-                status_label.text = "📄 Extracting Content from the document"
-                error_label.text = ""
-                ui.update()
 
             try:
-                extracted_json = await run.io_bound(send_msg_to_ai, session.uploaded_file_path)
+                generate_button.visible = False
+                spinner.visible = True
+                animation_placeholder.visible = True
+                status_label.text = "📄 Extracting Content from the document..."
+                ui.update()
 
+                # extracted_json = await run.io_bound(send_msg_to_ai, session.uploaded_file_path)
+                extracted_json = "Abc"
                 if not extracted_json:
-                    with card:
-                        ui.notify("Text extraction failed. Try again or upload another file.", type='negative')
-                        status_label.text = ""
-                        error_label.text = "⚠️ We couldn't extract text from your PDF. Please try again or use a different file."
-                        spinner.visible = False
-                        try_again_button.visible = True
-                        ui.update()
+                    error_label.text = "⚠️ Failed to extract text. Please try another file."
+                    spinner.visible = False
+                    animation_placeholder.visible = False
+                    try_again_button.visible = True
+                    generate_button.visible = False
+                    ui.update()
                     return
 
-                with card:
-                    status_label.text = "🛠 Generating Notes"
-                    ui.update()
+                status_label.text = "🤖 AI Analyzing and Generating Notes..."
+                ui.update()
 
                 notes_generated = await run.io_bound(generate_notes_from_content, extracted_json)
 
-                with card:
-                    status_label.text = "📄 Generating Word File"
-                    ui.update()
+                status_label.text = "📕 Preparing Word File..."
+                ui.update()
 
                 unique_name = f"{session.uploaded_file_name}_{uuid.uuid4().hex[:6]}.docx"
                 file_generated = await run.io_bound(generate_word_file, notes_generated,
@@ -107,193 +141,122 @@ def main_page():
                         link.click();
                     """)
 
-                with card:
-                    download_button.on('click', trigger_download)
-                    status_label.text = "📕 Your Notes are Ready!"
-                    spinner.visible = False
-                    download_button.visible = True
-                    feedback_label.visible = True
-                    feedback_input.visible = True
-                    submit_feedback_button.visible = True
-                    reset_button.visible = True
-                    ui.update()
+                download_button.on('click', trigger_download)
+
+                status_label.text = "✅ Your Notes are Ready!"
+                spinner.visible = False
+                animation_placeholder.visible = False
+                download_button.visible = True
+
+                # feedback_label.visible = True
+                # feedback_input.visible = True
+                # submit_feedback_button.visible = True
+
+                reset_button.visible = True
+                ui.update()
 
             except Exception as e:
-                with card:
-                    ui.notify("❌ Something went wrong while generating your notes. Please try again.", type="negative")
-                    report_error(str(e))
-                    status_label.text = ""
-                    error_label.text = "⚠️ Something went wrong. We're working to fix it. Please try again."
-                    spinner.visible = False
-                    try_again_button.visible = True
-                    ui.update()
+                report_error(str(e))
+                error_label.text = "⚠️ Something went wrong. Please try again."
+                spinner.visible = False
+                animation_placeholder.visible = False
+                try_again_button.visible = True
+                ui.update()
 
         background_tasks.create(background_job())
 
-    def reset_all():
-        session.uploaded_file_path = None
-        session.original_filename = "Notes"
-        status_message.text = ''
-        download_button.visible = False
-        generate_button.visible = True
-        word_file_generation_animation.visible = False
-        selected_prompt.visible = True
-        selected_prompt.value = list(note_options.keys())[0]
-        render_upload()
-        reset_button.visible = False
-        status_label.visible = False
-        ui.notify('Reset successful! You can upload a new file.')
-        ui.update()
-
-    def confirm_file_upload():
-        upload_container.clear()
-        with upload_container:
-            with ui.card().classes(
-                'w-full max-w-xl p-6 rounded-2xl bg-gradient-to-br from-emerald-100 to-white '
-                'shadow-xl border border-emerald-300 flex items-center space-x-4'
-            ):
-                ui.image('/assets/Doc_pic.png').classes("w-10 h-10")
-                with ui.column().classes('items-start'):
-                    ui.label("File Uploaded").classes('text-sm font-medium text-emerald-600')
-                    ui.label(session.original_filename).classes(
-                        'text-lg font-semibold text-emerald-900 truncate max-w-xs'
-                    )
-                ui.notify("✅ File Uploaded Successfully!")
-
-    def handle_files(e):
-        session.original_filename = e.name
-        with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
-            temp_file.write(e.content.read())
-            session.uploaded_file_path = Path(temp_file.name)
-
-        upload_container.clear()
-        with upload_container:
-            with ui.card().classes(
-                'w-full max-w-xl p-6 rounded-2xl border border-emerald-300 bg-emerald-50 '
-                'text-center shadow-md flex flex-col items-center justify-center'
-            ):
-                with ui.row().classes("justify-center items-center mb-4"):
-                    with ui.card().classes(
-                            "bg-white shadow-md px-4 py-2 rounded-xl flex items-center gap-3 border border-emerald-300"
-                    ):
-                        ui.icon("picture_as_pdf").classes("text-red-500 text-3xl")
-                        ui.label(session.original_filename).classes("text-lg font-medium text-gray-800")
-
-                ui.label("Please confirm this is the file you'd like to upload").classes(
-                    'text-base font-medium text-gray-800 mb-2'
-                )
-                ui.label("The uploading may take a few seconds depending on file size.").classes(
-                    'text-sm text-gray-600 mb-4'
-                )
-
-                with ui.row().classes("gap-4"):
-                    ui.button("✅ Confirm", on_click=confirm_file_upload).classes(
-                        'bg-emerald-500 text-white px-5 py-2 rounded-lg hover:bg-emerald-600 transition-all'
-                    )
-                    ui.button("❌ Cancel", on_click=render_upload).classes(
-                        'bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition-all'
-                    )
-
-    def render_upload():
-        upload_container.clear()
-        with upload_container:
-            uploader = ui.upload(
-                on_upload=handle_files,
-                auto_upload=True,
-                multiple=False
-            ).props('accept=.pdf').classes('hidden')
-
-            with ui.card().classes(
-                'w-full max-w-xl h-48 border-2 border-dashed border-gray-300 bg-white/80 '
-                'hover:bg-emerald-50 rounded-2xl flex flex-col items-center justify-center '
-                'cursor-pointer transition-all text-center shadow-md'
-            ).on('click', lambda: uploader.run_method('pickFiles')):
-                ui.icon('cloud_upload').classes('text-5xl text-emerald-600')
-                ui.label('Click to upload your PDF').classes('text-lg font-medium text-gray-700')
-                ui.label('or drag and drop here (not active yet)').classes('text-sm text-gray-500')
-
-    # 🌐 Main UI Layout
     with ui.column().classes(
-        'absolute inset-0 w-full h-full overflow-x-hidden bg-gradient-to-tr '
-        'from-emerald-200 via-white to-indigo-100 px-3 sm:px-6 py-6 sm:py-12 text-base sm:text-lg'):
-
-        with ui.column().classes('w-full items-center'):
-            ui.label('NotesCraft AI – Powered by Intelligence, Built for Learners') \
-                .classes('text-2xl md:text-4xl font-bold text-emerald-800 text-center')
-
-            ui.label('Transform your PDFs into professional study notes using the power of AI.') \
-                .classes('text-base md:text-lg text-gray-600 text-center mb-6 px-4')
+            'items-center w-full min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 p-4 sm:p-6'):
+        ui.label('📚 NotesCraft AI').classes(
+            'text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600 text-center')
+        ui.label('Transform your PDFs into beautiful, structured study notes.').classes(
+            'text-lg sm:text-xl text-gray-700 text-center mb-6 sm:mb-8 px-2 sm:px-4')
 
         with ui.card().classes(
-            'w-full max-w-2xl sm:max-w-3xl mx-auto p-4 sm:p-8 bg-white/90 backdrop-blur-md shadow-2xl '
-            'rounded-2xl border border-gray-300'
-        ):
+                'w-full max-w-2xl sm:max-w-3xl mx-auto p-6 sm:p-8 bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl border border-gray-200 flex flex-col items-center space-y-4'):
             upload_container = ui.column().classes('w-full items-center')
+
+            def handle_upload(e):
+                session.uploaded_file_name = e.name
+                with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+                    temp_file.write(e.content.read())
+                    session.uploaded_file_path = Path(temp_file.name)
+
+                upload_container.clear()
+                with upload_container:
+                    with ui.card().classes(
+                            'w-full max-w-xl p-6 sm:p-8 rounded-2xl border border-emerald-300 bg-emerald-50 text-center shadow-md flex flex-col items-center justify-center'):
+                        ui.icon("picture_as_pdf").classes("text-red-500 text-5xl sm:text-6xl")
+                        ui.label(session.uploaded_file_name).classes(
+                            "text-lg sm:text-xl font-semibold text-gray-800 mt-2")
+                        ui.label("File Uploaded Successfully ✅").classes("text-sm sm:text-base text-gray-600 mt-1")
+
+            def render_upload():
+                upload_container.clear()
+                with upload_container:
+                    uploader = ui.upload(label='', on_upload=handle_upload, auto_upload=True, multiple=False).props(
+                        'accept=.pdf,.docx').classes('hidden')
+                    with ui.card().classes(
+                            'w-full max-w-xl h-44 sm:h-48 border-2 border-dashed border-gray-300 bg-white/80 hover:bg-emerald-50 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all text-center shadow-md').on(
+                            'click', lambda: uploader.run_method('pickFiles')):
+                        ui.icon('cloud_upload').classes('text-5xl sm:text-6xl text-emerald-600')
+                        ui.label('Click to upload your PDF or Word file').classes(
+                            'text-lg sm:text-xl font-medium text-gray-700 mt-2')
+
             render_upload()
 
-            selected_prompt = ui.select(
-                options=list(note_options.keys()),
-                value=list(note_options.keys())[0],
-                label='📚 Choose how to generate your notes'
-            ).classes(
-                'w-full max-w-md mx-auto mt-5 px-4 py-2 text-sm sm:text-base bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400'
-            )
-            selected_prompt.visible = True
+            status_label = ui.label('').classes('text-gray-800 mt-3 text-base sm:text-lg text-center')
+            error_label = ui.label('').classes('mt-3 text-base sm:text-lg text-rose-500 font-semibold text-center')
+            spinner = ui.spinner(size='lg').classes('text-emerald-600 mt-4')
+            spinner.visible = False
 
-            status_label = ui.label('Status:').classes(
-                'text-indigo-700 mt-4 text-base sm:text-lg font-semibold'
-            )
-            status_label.visible = False
+            animation_placeholder = ui.card().classes(
+                'w-full max-w-md h-36 sm:h-40 flex items-center justify-center bg-gradient-to-r from-emerald-100 to-blue-100 rounded-2xl shadow-inner text-gray-500 font-medium mt-4')
+            animation_placeholder.visible = False
+            with animation_placeholder:
+                ui.label("✨ Animation will appear here...")
 
-            with ui.column().classes('w-full items-center'):
-                with ui.column().classes('w-full items-center sm:flex-row sm:justify-center sm:gap-6 mt-2'):
-                    text_extraction_animation = ui.html("""
-                        <lottie-player src="/assets/document-search.json" background="transparent" speed="1"
-                                       style="width: 120px; height: 120px;" loop autoplay></lottie-player>
-                    """)
-                    text_extraction_animation.visible = False
+            download_button = ui.button('Download Notes').props(
+                'unelevated rounded color=indigo text-color=white').classes(
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
 
-                    notes_generation_animation = ui.html("""
-                        <lottie-player src="/assets/generate_notes.json" background="transparent" speed="1"
-                                       style="width: 120px; height: 120px;" loop autoplay></lottie-player>
-                    """)
-                    notes_generation_animation.visible = False
-
-                    word_file_generation_animation = ui.html("""
-                        <lottie-player src="/assets/generate_word_file.json" background="transparent" speed="1"
-                                       style="width: 120px; height: 120px;" loop autoplay></lottie-player>
-                    """)
-                    word_file_generation_animation.visible = False
-
-                status_message = ui.label('').classes(
-                    'text-gray-900 mt-3 text-center text-base sm:text-lg font-medium'
-                )
-
-            download_button = ui.button('⬇️ Download Notes').props(
-                'unelevated rounded color=indigo text-color=white'
-            ).classes(
-                'w-full max-w-md mx-auto mt-6 px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center'
-            )
             download_button.visible = False
 
             generate_button = ui.button('🚀 Generate Notes', on_click=process_with_ai).props(
-                'unelevated rounded color=indigo text-color=white'
-            ).classes(
-                'w-full max-w-md mx-auto mt-6 px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center'
-            )
+                'unelevated rounded color=indigo text-color=white').classes(
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
 
-            reset_button = ui.button('🔄 Start Over', on_click=reset_all).props(
-                'unelevated rounded color=indigo text-color=white'
-            ).classes(
-                'w-full max-w-md mx-auto mt-6 px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center'
-            )
+
+            reset_button = ui.button('🔄 Upload Another File', on_click=reset_app).props(
+                'unelevated rounded color=indigo text-color=white').classes(
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+
+
             reset_button.visible = False
 
 
-# 🚀 Run the app
-ui.run(
-    host='0.0.0.0',
-    port=int(os.environ.get('PORT', 8080)),
-    storage_secret=os.environ.get('STORAGE_SECRET', secrets.token_hex(32)),
-    title='NotesCraft AI – Smart Notes Maker'
-)
+            try_again_button = ui.button('🔄 Try Again', on_click=reset_app).props(
+                'unelevated rounded color=indigo text-color=white').classes(
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+
+
+            try_again_button.visible = False
+
+            # feedback_label = ui.label('✍️ Share your thoughts about NotesCraft').classes(
+            #     'text-base sm:text-lg font-semibold text-gray-800 mt-6 text-center')
+            #
+            # feedback_input = ui.textarea(label='Your Feedback', placeholder='What can we improve?').classes('w-full')
+            #
+            #
+            # submit_feedback_button = ui.button('Submit Feedback', icon='send', on_click=submit_feedback).classes(
+            #     'bg-blue-600 text-white mt-2 hover:bg-blue-700')
+            #
+            # feedback_label.visible = False
+            # feedback_input.visible = False
+            # submit_feedback_button.visible = False
+
+
+ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)),
+       storage_secret=os.environ.get('STORAGE_SECRET', secrets.token_hex(32)),
+       title='NotesCraft AI – Smart Notes Maker')
+

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>NotesCraft AI – Smart PDF to Notes Converter</title>
+  <meta name="description" content="Upload PDFs and instantly get structured, editable study notes with NotesCraft AI – perfect for students and professionals." />
+
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="NotesCraft AI – Smart PDF to Notes Converter" />
+  <meta property="og:description" content="Turn your PDFs into structured, editable notes in seconds. Free during Early Access!" />
+  <meta property="og:image" content="https://example.com/preview-image.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://app.notescraft.proxgate.xyz/" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NotesCraft AI – Smart PDF to Notes Converter" />
+  <meta name="twitter:description" content="Turn your PDFs into structured, editable notes in seconds. Free during Early Access!" />
+  <meta name="twitter:image" content="https://example.com/preview-image.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-tr from-emerald-100 via-white to-indigo-100 text-gray-900">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 bg-white/90 backdrop-blur shadow-md z-40">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Main navigation">
+      <a href="#" class="text-2xl font-extrabold text-teal-800">NotesCraft</a>
+      <div class="hidden md:flex gap-8 text-teal-700 font-medium">
+        <a href="#features" class="hover:text-teal-900 transition">Features</a>
+        <a href="#problem" class="hover:text-teal-900 transition">The Challenge</a>
+        <a href="#get-started" class="hover:text-teal-900 transition">Early Access</a>
+        <a href="#faq" class="hover:text-teal-900 transition">FAQ</a>
+      </div>
+      <button id="mobileToggle" class="md:hidden p-2 rounded-lg text-teal-700 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Toggle menu">
+        <svg id="iconOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="iconClose" class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </nav>
+    <div id="mobileMenu" class="hidden md:hidden bg-white/90 backdrop-blur-md shadow-md rounded-b-xl px-6 py-4 max-w-7xl mx-auto">
+      <a href="#features" class="block py-2 text-teal-700 font-medium hover:text-teal-900">Features</a>
+      <a href="#problem" class="block py-2 text-teal-700 font-medium hover:text-teal-900">The Challenge</a>
+      <a href="#get-started" class="block py-2 text-teal-700 font-medium hover:text-teal-900">Early Access</a>
+      <a href="#faq" class="block py-2 text-teal-700 font-medium hover:text-teal-900">FAQ</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <main>
+    <section class="py-20 text-center max-w-6xl mx-auto px-6 fade-in-up">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-black mb-6">
+        NotesCraft AI – Powered by Intelligence, Built for Learners
+      </h1>
+      <p class="text-lg sm:text-xl mb-4 max-w-2xl mx-auto text-gray-900">
+        Upload your PDFs and get perfectly structured, editable study notes in seconds.
+      </p>
+<!--      <p class="text-sm text-red-600 font-semibold mb-6">-->
+<!--        Early access is free for a limited time. After full launch, NotesCraft will be paid for everyone.-->
+<!--      </p>-->
+      <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="px-10 py-4 bg-teal-700 hover:bg-teal-800 text-white rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+          Join Early Access
+        </a>
+        <a href="YOUR_DISCORD_INVITE_LINK" target="_blank" class="px-10 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+          Join Discord Community
+        </a>
+
+
+      </div>
+      <div class="mt-4">
+    <span class="bg-yellow-200 text-yellow-900 text-sm font-semibold px-4 py-1 rounded-full">
+      🚀 Free During Early Access
+    </span>
+  </div>
+    </section>
+
+    <!-- PROBLEM SECTION -->
+    <section id="problem" class="py-20 fade-in-up">
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6 text-black">The Challenge & How NotesCraft Helps</h2>
+        <p class="text-lg text-gray-900 mb-4">
+          Reading long PDFs is slow, tiring, and easy to lose track of.
+        </p>
+        <p class="text-lg text-gray-900 mb-4">
+          Many AI tools shorten content too much — skipping important details because of length limits.
+        </p>
+        <p class="text-lg text-gray-900 font-medium">
+          NotesCraft processes entire PDFs without losing context, delivering clear, complete, and editable notes — so you spend more time learning and less time re-reading.
+        </p>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-20 max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-black mb-12 fade-in-up">Why NotesCraft?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <article class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in-up">
+          <h3 class="text-xl font-semibold mb-4 text-black">Complete Extraction</h3>
+          <p class="text-gray-900">Our algorithm captures every important detail from your documents — no more missing context.</p>
+        </article>
+        <article class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in-up">
+          <h3 class="text-xl font-semibold mb-4 text-black">Clean, Editable Notes</h3>
+          <p class="text-gray-900">Receive organized and easy-to-read notes in Word format, ready for your edits.</p>
+        </article>
+        <article class="bg-white p-6 rounded-2xl shadow-lg text-center fade-in-up">
+          <h3 class="text-xl font-semibold mb-4 text-black">Fast & Reliable</h3>
+          <p class="text-gray-900">From upload to download in seconds, so you can focus on learning — not formatting.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- EARLY ACCESS REWARDS SECTION -->
+    <section id="get-started" class="py-20 fade-in-up bg-gradient-to-tr from-white/90 to-indigo-50 rounded-xl max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold mb-4 text-black">Early Access Rewards</h2>
+        <p class="text-lg text-gray-900 max-w-2xl mx-auto mb-2">
+          Sign up now and enjoy exclusive perks available only to early users of NotesCraft.
+        </p>
+        <p class="text-sm text-red-600 font-semibold">
+          These perks are valid only until the full app launch.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition">
+          <div class="text-teal-700 text-4xl mb-4">📄</div>
+          <h3 class="text-xl font-semibold mb-2 text-black">Unlimited PDF Uploads</h3>
+          <p class="text-gray-900 text-sm">Process as many PDFs as you need, without limits.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition">
+          <div class="text-teal-700 text-4xl mb-4">🤖</div>
+          <h3 class="text-xl font-semibold mb-2 text-black">AI-Powered Notes</h3>
+          <p class="text-gray-900 text-sm">Get structured, editable notes instantly from your PDFs.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition">
+          <div class="text-teal-700 text-4xl mb-4">📝</div>
+          <h3 class="text-xl font-semibold mb-2 text-black">Download Notes in Word</h3>
+          <p class="text-gray-900 text-sm">Easily edit, print, or organize your notes offline.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition">
+          <div class="text-teal-700 text-4xl mb-4">⭐</div>
+          <h3 class="text-xl font-semibold mb-2 text-black">Influence Features</h3>
+          <p class="text-gray-900 text-sm">Provide feedback and help shape NotesCraft’s future.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-20 fade-in-up max-w-6xl mx-auto px-6">
+      <h2 class="text-4xl font-extrabold text-center mb-12 text-black">Frequently Asked Questions</h2>
+
+      <div class="space-y-4 max-w-4xl mx-auto">
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">Is early access really free?</summary>
+          <p class="text-gray-900 mt-2">Yes! Early users get full access to NotesCraft without any charge until the full app launch.</p>
+        </details>
+
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">How long is early access available?</summary>
+          <p class="text-gray-900 mt-2">The perks are valid only until the full app is officially launched.</p>
+        </details>
+
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">How long does it take to generate notes?</summary>
+          <p class="text-gray-900 mt-2">For most PDFs, it takes about 2-3 minutes. If your PDF has more pages, it may take a bit longer — but no worries! Just upload and start, NotesCraft will handle it.</p>
+        </details>
+
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">Can I download my notes?</summary>
+          <p class="text-gray-900 mt-2">Absolutely! You can download all notes in editable Word format for easy editing or printing.</p>
+        </details>
+
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">Can I give feedback or request features?</summary>
+          <p class="text-gray-900 mt-2">Yes! Your feedback will help shape the future of NotesCraft.</p>
+        </details>
+
+        <details class="bg-white p-6 rounded-2xl shadow-lg cursor-pointer">
+          <summary class="text-lg font-semibold text-black">Is my data safe?</summary>
+          <p class="text-gray-900 mt-2">Your PDFs and notes are securely processed and never shared with anyone.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="py-20 fade-in-up">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6 text-black">Ready to Transform Your Notes?</h2>
+        <p class="text-lg mb-8 text-gray-900">Join thousands of learners using NotesCraft AI to study smarter.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+          <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="px-10 py-4 bg-teal-700 hover:bg-teal-800 text-white rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+            Join Early Access
+          </a>
+          <a href="YOUR_DISCORD_INVITE_LINK" target="_blank" class="px-10 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-lg transition transform hover:scale-105">
+            Join Discord Community
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobileToggle');
+    const menu  = document.getElementById('mobileMenu');
+    const iconOpen  = document.getElementById('iconOpen');
+    const iconClose = document.getElementById('iconClose');
+
+    toggle?.addEventListener('click', () => {
+      const isHidden = menu.classList.toggle('hidden');
+      iconOpen.classList.toggle('hidden', !isHidden);
+      iconClose.classList.toggle('hidden', isHidden);
+    });
+
+    // Fade-in animations
+    const faders = document.querySelectorAll('.fade-in-up');
+    const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  </script>
+</body>
+</html>

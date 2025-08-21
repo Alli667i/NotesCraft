@@ -19,6 +19,7 @@ def main_page():
     # To add a favicon for the web app
     ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
 
+
     session = app.storage.user
     session.uploaded_file_path = None
     session.uploaded_file_name = "Notes"
@@ -383,7 +384,8 @@ ui.run(
     host='0.0.0.0',
     port=int(os.environ.get('PORT', 8080)),
     storage_secret=os.environ.get('STORAGE_SECRET', secrets.token_hex(32)),
-    title='NotesCraft AI – Smart Notes Maker'
+    title='NotesCraft AI – Smart Notes Maker',
+
 )
 
 
