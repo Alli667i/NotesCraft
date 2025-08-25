@@ -70,6 +70,8 @@ def main_page():
 
         feedback_button.visible = False
 
+        error_report_button.visible = False
+
         render_upload()
 
         ui.notify("Ready for another file!")
@@ -97,22 +99,30 @@ def main_page():
                     extracted_json = await run.io_bound(send_msg_to_ai, session.uploaded_file_path)
 
                     if not extracted_json:
+
                         raise ValueError("No content extracted from the file.")
 
                 except Exception as e:
 
                     report_error(f"Extraction Error: {str(e)}")  # log real error
-                    print(f"Error: {str(e)}")
+                    # print(f"Error: {str(e)}")
+
+                    error_report_button.visible = True
 
                     text_extraction_animation.visible = False
+
                     status_label.text=""
 
                     error_label.text = "⚠️ Failed to extract content from the file. Please try again."
+
                     try_again_button.visible = True
+
                     ui.update()
+
                     return  # Stop further processing
 
                 # --- NOTES GENERATION ---
+
                 text_extraction_animation.visible = False
 
                 status_label.text = "🛠 Generating Notes"
@@ -131,7 +141,9 @@ def main_page():
 
                     report_error(f"Notes Generation Error: {str(e)}")  # log real error
 
-                    print(f"Error: {str(e)}")
+                    # print(f"Error: {str(e)}")
+                    error_report_button.visible = True
+
                     notes_generation_animation.visible = False
 
                     status_label.text=""
@@ -201,7 +213,9 @@ def main_page():
                 # --- Catch any unexpected failures ---
                 report_error(str(e))
 
-                print(f"Error: {str(e)}")
+                error_report_button.visible = True
+
+                # print(f"Error: {str(e)}")
 
                 error_label.text = "⚠️ Something went wrong during processing. Please try again."
 
@@ -214,6 +228,7 @@ def main_page():
                 word_file_generation_animation.visible = False
 
                 try_again_button.visible = True
+
                 ui.update()
 
         background_tasks.create(background_job())
@@ -236,13 +251,17 @@ def main_page():
             upload_container = ui.column().classes('w-full items-center')
 
             def handle_upload(e):
+
                 session.uploaded_file_name = e.name
+
                 with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
                     temp_file.write(e.content.read())
                     session.uploaded_file_path = Path(temp_file.name)
 
                 upload_container.clear()
+
                 with upload_container:
+
                     with ui.card().classes(
                             'w-full max-w-xl p-6 sm:p-8 rounded-2xl border border-emerald-300 bg-emerald-50 text-center shadow-md flex flex-col items-center justify-center'):
                         ui.icon("picture_as_pdf").classes("text-red-500 text-5xl sm:text-6xl")
@@ -251,10 +270,14 @@ def main_page():
                         ui.label("File Uploaded Successfully ✅").classes("text-sm sm:text-base text-gray-600 mt-1")
 
             def render_upload():
+
                 upload_container.clear()
+
                 with upload_container:
+
                     uploader = ui.upload(label='', on_upload=handle_upload, auto_upload=True, multiple=False).props(
                         'accept=.pdf,.docx').classes('hidden')
+
                     with ui.card().classes(
                             'w-full max-w-xl h-48 border-2 border-dashed border-gray-300 bg-white/80 '
                             'hover:bg-emerald-50 rounded-2xl flex flex-col items-center justify-center '
@@ -322,6 +345,24 @@ def main_page():
                 'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
 
             feedback_button.visible = False  # will show it only after notes are ready
+
+
+
+            error_report_url = "https://forms.gle/Eqjk6SS1jtmWuXGg6"
+
+            def open_error_report_form():
+                js_code = f"window.open('{error_report_url}', '_blank');"
+                ui.run_javascript(js_code)
+
+
+            error_report_button = ui.button("🚩 Report Error ", on_click=open_error_report_form).props(
+                'unelevated rounded color=indigo text-color=white').classes(
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+
+
+            error_report_button.visible = False  # will show it only after notes are ready
+
+
 
             generate_button = ui.button('🚀 Generate Notes', on_click=process_with_ai).props(
                 'unelevated rounded color=indigo text-color=white').classes(
