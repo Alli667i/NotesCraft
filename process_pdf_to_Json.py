@@ -76,6 +76,6 @@ def send_msg_to_ai(uploaded_file,instructions_by_user= "Extract everything as pe
 
     except Exception as Error:
 
-        print(f"Error: {str(Error)}")
+        print(f"Error OCCURED : {str(Error)}")
 
 
