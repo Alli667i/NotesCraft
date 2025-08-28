@@ -1,4 +1,3 @@
-import asyncio
 import base64
 import mimetypes
 import os
@@ -9,9 +8,10 @@ from tempfile import NamedTemporaryFile
 import secrets
 import requests
 from nicegui import ui, app, background_tasks, run
-from process_content_to_notest_test_fix import generate_notes_from_content
+from app_version_2_update.process_content_to_notest_test_fix import generate_notes_from_content
 from process_pdf_to_Json import send_msg_to_ai
 from process_to_word_02 import generate_word_file
+
 
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))
 
@@ -53,6 +53,7 @@ def main_page():
                 print(f"Error reporting failed: {e}")
 
     def reset_app():
+
         session.uploaded_file_path = None
         session.uploaded_file_name = "Notes"
 

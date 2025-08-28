@@ -6,11 +6,11 @@ from nicegui import ui , app
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
-from process_content_to_notes_02 import generate_notes_from_content
-from process_to_word_02 import generate_word_file
+from Later.process_content_to_notes_02 import generate_notes_from_content
+from app_version_2_update.process_to_word_02 import generate_word_file
 from dotenv import load_dotenv
-from process_pdf_to_Json import send_msg_to_ai
-from Instructions_for_Notes_genearation import for_detail_notes,for_summarize_notes
+from app_version_02.process_pdf_to_Json import send_msg_to_ai
+from app_version_02.Instructions_for_Notes_genearation import for_detail_notes,for_summarize_notes
 
 load_dotenv()
 
