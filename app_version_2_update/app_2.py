@@ -1,4 +1,3 @@
-import asyncio
 import base64
 import mimetypes
 import os
@@ -100,32 +99,49 @@ def main_page():
                 # --- TEXT EXTRACTION ---
                 try:
 
-                    extracted_json = await run.io_bound(send_msg_to_ai, session.uploaded_file_path)
+                    extracted_json = await run.io_bound(
+                        lambda: send_msg_to_ai(session.uploaded_file_path, report_error)
+                    )
 
-                    if not extracted_json:
+                    # ✅ Check if extraction failed with an error string
+                    if isinstance(extracted_json, str) and extracted_json.startswith("Extraction Failed"):
 
-                        raise ValueError("Text Extraction Failed.")
+                        error_report_button.visible = True
+
+                        text_extraction_animation.visible = False
+
+                        try_again_button.visible = True
+
+                        # Show exact failure reason to user
+                        status_label.text = ""
+
+                        error_label.text = f"⚠️ {extracted_json}"
+
+                        # ui.notify(message=extracted_json, type='warning')
+
+
+                        ui.update()
+
+                        return
 
                 except Exception as e:
 
-                    report_error(f"Extraction Error: {str(e)}")  # log real error
-
-                    print(f"Error: {str(e)}")
-
+                    report_error(f"Unexpected Background Error: {str(e)}")
 
                     error_report_button.visible = True
 
                     text_extraction_animation.visible = False
 
-                    status_label.text=""
-
-                    error_label.text = "⚠️ Failed to extract content from the file. Please try again."
-
                     try_again_button.visible = True
+
+                    error_label.text = f"⚠️ Unexpected Error: {str(e)}"
+
+                    # ui.notify(message=f"Unexpected Error: {str(e)}")
+
 
                     ui.update()
 
-                    return  # Stop further processing
+                    return
 
                 # --- NOTES GENERATION ---
 

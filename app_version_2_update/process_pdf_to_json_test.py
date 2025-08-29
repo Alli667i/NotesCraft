@@ -1,5 +1,7 @@
 import os
 import json
+
+import requests
 # import google ai  library to access gemini
 from google import genai
 # import types library from Google genai to work with different files then text
@@ -15,46 +17,76 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
+def report_error(Error):
 
-# Clean up raw response received from AI(remove markdown wrappers)
+    if Error:
+
+        try:
+            requests.post(
+                'https://script.google.com/macros/s/AKfycbz6Gbht0iZ4tW7lp48x3hDYCvYIDGZbOYdwnpbmyHSQjxsdZ0D0zsx7ZU84eN9n0g2T9w/exec',
+                json={"Error": Error},
+            )
+        except Exception as e:
+
+            print(f"Error reporting failed: {e}")
+
+
 
 def clean_raw_response_from_ai(ai_response: str) -> str:
+    """Remove markdown formatting from AI response."""
     if not ai_response:
         return ""
     return ai_response.replace("```json", "").replace("```", "").strip()
 
 
-def finalize_extracted_content(json_string: str) -> str:
+def finalize_extracted_content(json_string: str) -> dict | str | None:
+    """Parse JSON safely, log if it fails, return dict or error string."""
     try:
-
-        return  json.loads(json_string) # It will conv the json string into a dictionary
-        # return json.dumps(parsed_data, indent=2, ensure_ascii=False) # It will conv dictionary into json string
+        return json.loads(json_string)
 
     except json.JSONDecodeError as e:
 
-        return f"⚠️ JSON parsing error: {str(e)}\nRaw response: {json_string[:500]}..."
+        error_msg = f"⚠️ JSON parsing error: {str(e)} | Raw response (first 300 chars): {json_string[:300]}..."
+
+        report_error(error_msg)
+
+        return "Extraction Failed: Incomplete or invalid JSON from AI"
 
 
-# Extract text safely from Gemini response
 def safe_get_text(response):
+    """Extract plain text from Gemini response object."""
     try:
         if not response:
             return None
-
         if hasattr(response, "candidates") and response.candidates:
             for candidate in response.candidates:
                 if hasattr(candidate, "content") and candidate.content and candidate.content.parts:
                     return "".join([getattr(p, "text", "") for p in candidate.content.parts])
+
         return None
+
     except Exception as e:
-        print(f"⚠️ Error extracting text: {e}")
+
+        error_msg = f"⚠️ Error extracting text from Gemini response: {e}"
+
+        report_error(error_msg)
+
         return None
 
 
-# Send file + instructions to Gemini
-def send_msg_to_ai(uploaded_file, instructions_by_user="Extract everything as per instructions and ignore the text in green boxes and diagrams"):
+def send_msg_to_ai(uploaded_file, instructions_by_user="Extract everything as per instructions"):
+
+    """Send file to Gemini and return structured JSON or error string."""
+
     try:
         client = genai.Client(api_key=GOOGLE_API_KEY)
+
+        # ✅ Detect MIME type dynamically
+        mime_type = (
+            "application/pdf"
+            if uploaded_file.suffix.lower() == ".pdf"
+            else "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
 
         response = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -62,36 +94,44 @@ def send_msg_to_ai(uploaded_file, instructions_by_user="Extract everything as pe
             contents=[
                 types.Part.from_bytes(
                     data=uploaded_file.read_bytes(),
-                    mime_type="application/pdf"
-                ),
-                instructions_by_user
+                    mime_type=mime_type
+                )
             ]
         )
 
-        # Debugging: check if response is empty
         if not response:
-            print("⚠️ No response received from Gemini.")
-            return None
+            error_msg = "⚠️ No response received from Gemini API."
+            report_error(error_msg)
+            return "Extraction Failed: No response from AI"
 
-        print(f"\nRaw response from AI: {response.text}")
+        raw_text = safe_get_text(response)
 
-        verify_response = safe_get_text(response)
+        if not raw_text:
 
-        if not verify_response:
-            print("⚠️ No text extracted from response.")
-            return None
+            error_msg = "⚠️ No text extracted from Gemini response."
 
-        # Clean the response to remove unwanted things and objects from it
-        cleaned = clean_raw_response_from_ai(verify_response)
+            report_error(error_msg)
 
-        print(f"\nAI response after cleaning: {cleaned}")
+            return "Extraction Failed: AI returned empty text"
 
-        print(f"\nFinal product : {finalize_extracted_content(cleaned)}")
+        cleaned = clean_raw_response_from_ai(raw_text)
 
-        return finalize_extracted_content(cleaned) if cleaned else None
+        print(f"Content Extracted: {cleaned}")
+
+        print("------------------------------------------------------------------------")
+
+        parsed = finalize_extracted_content(cleaned)
+
+        if parsed is None or isinstance(parsed, str):
+            # Already logged inside finalize_extracted_content
+            return parsed
+
+        return parsed  # ✅ Success, return dictionary
 
     except Exception as e:
 
-        print(f"❌ Error occurred in send_msg_to_ai: {str(e)}")
+        error_msg = f"❌ Unexpected error in send_msg_to_ai: {str(e)}"
 
-        return None
+        report_error(error_msg)
+
+        return "Extraction Failed: Unexpected internal error"
