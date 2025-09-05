@@ -91,12 +91,29 @@ def generate_notes_from_content(book_text):
 
     # content_fixed = json.loads(book_text) # This convert the received json array into a dictionary to extract content from it
 
-    content_fixed = book_text
+    total_tokens_used = 0
 
-    for topic, content in content_fixed.items():  # This loop gets the content from the  dictionary and pass it over to LLM one by one
+    total_input_tokens_used = 0
+
+    total_output_tokens_used = 0
+
+
+    for number ,(topic, content) in enumerate(book_text.items() , start=1):  # This loop gets the content from the  dictionary and pass it over to LLM one by one
         response = model.generate_content(f"{topic} {content}")
         response_validated = safe_get_text(response)
         collect_response.append(response_validated)
+
+        print(f"Input Tokens for request({number}):", response.usage_metadata.prompt_token_count)
+
+        print(f"Output Tokens for request({number}):", response.usage_metadata.candidates_token_count)
+
+        print(f"Total Tokens for request({number}):{response.usage_metadata.total_token_count}\n")
+
+        total_input_tokens_used += response.usage_metadata.prompt_token_count
+
+        total_output_tokens_used += response.usage_metadata.candidates_token_count
+
+        total_tokens_used += response.usage_metadata.total_token_count
 
 
     for each in collect_response: # This loop will
@@ -113,9 +130,15 @@ def generate_notes_from_content(book_text):
     # This will add [] brackets to the json array
     full_json_array = "[" + connect_all_json + "]"
 
-    print(type(full_json_array))
 
-    print(f"Generated raw Notes: {full_json_array}")
+    print(f"\nTotal Tokens Used: {total_tokens_used}")
+
+    print(f"\nTotal Input Tokens Used: {total_input_tokens_used}")
+
+    print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
+
+
+    print(f"\nGenerated raw Notes: {full_json_array}")
 
     #This will verify if the whole json is correct and good to use if yes then return it as it is else it will fix it and assign to this variable
     final_json_array = validate_and_fix_json(full_json_array)
@@ -130,6 +153,6 @@ def generate_notes_from_content(book_text):
     generated_json_for_word = json.loads(json_str)
 
 
-    print(f"Final Notes Generated: {generated_json_for_word}")
+    print(f"\nFinal Notes Generated: {generated_json_for_word}")
 
     return generated_json_for_word

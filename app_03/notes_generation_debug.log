@@ -1,0 +1,171 @@
+2025-09-05 21:32:51,315 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 21:32:51,322 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf, size: 288840 bytes
+2025-09-05 21:32:51,323 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf (type: .pdf)
+2025-09-05 21:32:51,501 - INFO - PDF page count: 2
+2025-09-05 21:32:51,501 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 21:32:52,452 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 21:32:53,300 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf
+2025-09-05 21:32:53,301 - INFO - Starting text extraction phase
+2025-09-05 21:32:53,301 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf
+2025-09-05 21:32:53,302 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
+2025-09-05 21:32:53,302 - ERROR - Full traceback: NoneType: None
+
+2025-09-05 21:32:57,221 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
+2025-09-05 21:32:57,221 - ERROR - Full traceback: NoneType: None
+
+2025-09-05 21:33:49,100 - INFO - Resetting application state
+2025-09-05 21:33:57,251 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 21:33:57,581 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf, size: 288840 bytes
+2025-09-05 21:33:57,581 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf (type: .pdf)
+2025-09-05 21:33:57,607 - INFO - PDF page count: 2
+2025-09-05 21:33:57,607 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 21:33:58,428 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 21:33:59,092 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf
+2025-09-05 21:33:59,092 - INFO - Starting text extraction phase
+2025-09-05 21:33:59,092 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf
+2025-09-05 21:33:59,093 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
+2025-09-05 21:33:59,093 - ERROR - Full traceback: NoneType: None
+
+2025-09-05 21:34:02,165 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
+2025-09-05 21:34:02,165 - ERROR - Full traceback: NoneType: None
+
+2025-09-05 21:39:34,106 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 21:39:34,113 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf, size: 288840 bytes
+2025-09-05 21:39:34,113 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf (type: .pdf)
+2025-09-05 21:39:34,141 - INFO - PDF page count: 2
+2025-09-05 21:39:34,141 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 21:39:35,028 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 21:39:36,068 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf
+2025-09-05 21:39:36,069 - INFO - Starting text extraction phase
+2025-09-05 21:39:36,069 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf
+2025-09-05 21:39:36,069 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
+2025-09-05 21:39:36,069 - ERROR - Full traceback: NoneType: None
+
+2025-09-05 21:39:39,083 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
+2025-09-05 21:39:39,084 - ERROR - Full traceback: No traceback available
+2025-09-05 21:39:42,195 - INFO - Error report sent successfully. Response: 200
+2025-09-05 21:39:57,884 - INFO - Resetting application state
+2025-09-05 21:40:51,418 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 21:40:51,428 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf, size: 288840 bytes
+2025-09-05 21:40:51,428 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf (type: .pdf)
+2025-09-05 21:40:51,460 - INFO - PDF page count: 2
+2025-09-05 21:40:51,460 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 21:40:52,652 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 21:40:53,285 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf
+2025-09-05 21:40:53,285 - INFO - Starting text extraction phase
+2025-09-05 21:40:53,286 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf
+2025-09-05 21:40:53,286 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-05 21:40:53,286 - INFO - Detected MIME type: application/pdf
+2025-09-05 21:40:53,875 - INFO - Gemini client initialized successfully
+2025-09-05 21:40:53,876 - INFO - Successfully read 288840 bytes from file
+2025-09-05 21:40:53,876 - INFO - Sending request to Gemini API
+2025-09-05 21:40:53,969 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-05 21:40:54,974 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
+2025-09-05 21:40:55,012 - ERROR - EXTRACTION ERROR: API_KEY_ERROR | 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key not valid. Please pass a valid API key.'}]}} | Context: Gemini API call
+2025-09-05 21:40:55,015 - ERROR - Full traceback: Traceback (most recent call last):
+  File "D:\Project Files\Notescraft Remastered\app_03\process_pdf_to_json.py", line 250, in send_msg_to_ai
+    response = client.models.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 5019, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 3995, in _generate_content
+    response_dict = self._api_client.request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 726, in request
+    response = self._request(http_request, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 655, in _request
+    errors.APIError.raise_for_response(response)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\errors.py", line 101, in raise_for_response
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key not valid. Please pass a valid API key.'}]}}
+
+2025-09-05 21:40:57,891 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: AI service error during processing | Action: Text extraction
+2025-09-05 21:40:57,891 - ERROR - Full traceback: No traceback available
+2025-09-05 21:41:00,987 - INFO - Error report sent successfully. Response: 200
+2025-09-05 21:42:19,273 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 21:42:19,285 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf, size: 288840 bytes
+2025-09-05 21:42:19,285 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf (type: .pdf)
+2025-09-05 21:42:19,307 - INFO - PDF page count: 2
+2025-09-05 21:42:19,307 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 21:42:20,469 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 21:42:21,253 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf
+2025-09-05 21:42:21,253 - INFO - Starting text extraction phase
+2025-09-05 21:42:21,254 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf
+2025-09-05 21:42:21,254 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-05 21:42:21,254 - INFO - Detected MIME type: application/pdf
+2025-09-05 21:42:21,588 - INFO - Gemini client initialized successfully
+2025-09-05 21:42:21,589 - INFO - Successfully read 288840 bytes from file
+2025-09-05 21:42:21,589 - INFO - Sending request to Gemini API
+2025-09-05 21:42:21,589 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-05 21:42:43,070 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-05 21:42:43,093 - INFO - AFC remote call 1 is done.
+2025-09-05 21:42:43,093 - INFO - Received response from Gemini API
+2025-09-05 21:42:43,094 - INFO - Successfully extracted 4546 characters from response
+2025-09-05 21:42:43,094 - INFO - Token usage - Input: 879, Output: 932, Total: 4712
+2025-09-05 21:42:43,095 - INFO - Successfully parsed JSON with 3 sections
+2025-09-05 21:42:43,095 - INFO - Successfully extracted and parsed content with 3 sections
+2025-09-05 21:42:43,096 - INFO - Text extraction completed successfully
+2025-09-05 21:42:43,097 - INFO - Starting notes generation phase
+2025-09-05 21:42:43,098 - INFO - Starting notes generation process
+2025-09-05 21:42:43,100 - INFO - Processing 3 content sections
+2025-09-05 21:42:43,101 - INFO - Gemini model initialized successfully
+2025-09-05 21:42:43,101 - INFO - Processing section 1/3: Ten Principles of Economics...
+2025-09-05 21:42:54,451 - INFO - Section 1 tokens - Input: 844, Output: 543, Total: 2996
+2025-09-05 21:42:54,451 - INFO - Processing section 2/3: How People Make Decisions...
+2025-09-05 21:42:58,531 - INFO - Section 2 tokens - Input: 349, Output: 233, Total: 1061
+2025-09-05 21:42:58,532 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
+2025-09-05 21:43:03,551 - INFO - Section 3 tokens - Input: 507, Output: 378, Total: 1330
+2025-09-05 21:43:03,551 - INFO - Successfully processed 3 sections
+2025-09-05 21:43:03,551 - INFO - Token usage summary - Total: 5387, Input: 1700, Output: 1154
+2025-09-05 21:43:03,552 - INFO - Validating JSON output (length: 4814)
+2025-09-05 21:43:03,552 - INFO - JSON parsed successfully on first attempt
+2025-09-05 21:43:03,553 - INFO - Notes generation completed successfully with 28 note sections
+2025-09-05 21:43:03,554 - INFO - Notes generation completed successfully
+2025-09-05 21:43:03,554 - INFO - Starting Word file generation phase
+2025-09-05 21:43:03,961 - INFO - 2 changes detected
+2025-09-05 21:43:06,882 - INFO - Processing completed successfully
+2025-09-05 22:57:42,920 - INFO - File upload initiated: Ch_01.pdf
+2025-09-05 22:57:42,929 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf, size: 288840 bytes
+2025-09-05 22:57:42,931 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf (type: .pdf)
+2025-09-05 22:57:43,515 - INFO - PDF page count: 2
+2025-09-05 22:57:43,515 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-05 22:57:44,537 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-05 22:57:45,529 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf
+2025-09-05 22:57:45,530 - INFO - Starting text extraction phase
+2025-09-05 22:57:45,531 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf
+2025-09-05 22:57:45,531 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-05 22:57:45,531 - INFO - Detected MIME type: application/pdf
+2025-09-05 22:57:46,029 - INFO - Gemini client initialized successfully
+2025-09-05 22:57:46,030 - INFO - Successfully read 288840 bytes from file
+2025-09-05 22:57:46,030 - INFO - Sending request to Gemini API
+2025-09-05 22:57:46,030 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-05 22:58:03,454 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-05 22:58:03,462 - INFO - AFC remote call 1 is done.
+2025-09-05 22:58:03,463 - INFO - Received response from Gemini API
+2025-09-05 22:58:03,463 - INFO - Successfully extracted 4582 characters from response
+2025-09-05 22:58:03,464 - INFO - Token usage - Input: 879, Output: 965, Total: 4036
+2025-09-05 22:58:03,464 - INFO - Successfully parsed JSON with 3 sections
+2025-09-05 22:58:03,464 - INFO - Successfully extracted and parsed content with 3 sections
+2025-09-05 22:58:03,466 - INFO - Text extraction completed successfully
+2025-09-05 22:58:03,466 - INFO - Starting notes generation phase
+2025-09-05 22:58:03,468 - INFO - Starting notes generation process
+2025-09-05 22:58:03,469 - INFO - Processing 3 content sections
+2025-09-05 22:58:03,470 - INFO - Gemini model initialized successfully
+2025-09-05 22:58:03,471 - INFO - Processing section 1/3: Ten Principles of Economics...
+2025-09-05 22:58:13,510 - INFO - Section 1 tokens - Input: 858, Output: 761, Total: 2563
+2025-09-05 22:58:13,511 - INFO - Processing section 2/3: How People Make Decisions...
+2025-09-05 22:58:17,688 - INFO - Section 2 tokens - Input: 349, Output: 307, Total: 1097
+2025-09-05 22:58:17,688 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
+2025-09-05 22:58:22,578 - INFO - Section 3 tokens - Input: 511, Output: 508, Total: 1496
+2025-09-05 22:58:22,578 - INFO - Successfully processed 3 sections
+2025-09-05 22:58:22,579 - INFO - Token usage summary - Total: 5156, Input: 1718, Output: 1576
+2025-09-05 22:58:22,579 - INFO - Validating JSON output (length: 5921)
+2025-09-05 22:58:22,580 - INFO - JSON parsed successfully on first attempt
+2025-09-05 22:58:22,580 - INFO - Notes generation completed successfully with 38 note sections
+2025-09-05 22:58:22,581 - INFO - Notes generation completed successfully
+2025-09-05 22:58:22,582 - INFO - Starting Word file generation phase
+2025-09-05 22:58:23,018 - INFO - 2 changes detected
+2025-09-05 22:58:24,943 - INFO - Processing completed successfully
+2025-09-05 22:59:15,713 - INFO - Resetting application state

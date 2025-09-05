@@ -33,7 +33,7 @@ def report_error(Error):
 
 
 def clean_raw_response_from_ai(ai_response: str) -> str:
-    """Remove markdown formatting from AI response."""
+    """Remove Markdown formatting from AI response."""
     if not ai_response:
         return ""
     return ai_response.replace("```json", "").replace("```", "").strip()
@@ -48,19 +48,28 @@ def finalize_extracted_content(json_string: str) -> dict | str | None:
 
         error_msg = f"⚠️ JSON parsing error: {str(e)} | Raw response (first 300 chars): {json_string[:300]}..."
 
-        report_error(error_msg)
+        report_error(f"{error_msg} {json_string}")
+
+        print(f"Failed Extraction: {json_string}")
 
         return "Extraction Failed: Incomplete or invalid JSON from AI"
 
 
 def safe_get_text(response):
+
     """Extract plain text from Gemini response object."""
     try:
+
         if not response:
+
             return None
+
         if hasattr(response, "candidates") and response.candidates:
+
             for candidate in response.candidates:
+
                 if hasattr(candidate, "content") and candidate.content and candidate.content.parts:
+
                     return "".join([getattr(p, "text", "") for p in candidate.content.parts])
 
         return None
@@ -100,23 +109,36 @@ def send_msg_to_ai(uploaded_file, instructions_by_user="Extract everything as pe
         )
 
         if not response:
+
             error_msg = "⚠️ No response received from Gemini API."
+
             report_error(error_msg)
+
             return "Extraction Failed: No response from AI"
 
         raw_text = safe_get_text(response)
+
+        input_token = response.usage_metadata.prompt_token_count
+        output_token = response.usage_metadata.candidates_token_count
+        total_token = response.usage_metadata.total_token_count
+
+        print(f'\nRaw Extracted Text: {raw_text}')
+
+        print(f'\nInput Token of extraction: {input_token}')
+        print(f'\nOutput Token extraction: {output_token}')
+        print(f'\nTotal Token of extraction: {total_token}')
 
         if not raw_text:
 
             error_msg = "⚠️ No text extracted from Gemini response."
 
-            report_error(error_msg)
+            report_error(f"Extraction Error: {error_msg}")
 
             return "Extraction Failed: AI returned empty text"
 
         cleaned = clean_raw_response_from_ai(raw_text)
 
-        print(f"Content Extracted: {cleaned}")
+        print(f"Extraction Finalized: {cleaned}")
 
         print("------------------------------------------------------------------------")
 
@@ -132,6 +154,6 @@ def send_msg_to_ai(uploaded_file, instructions_by_user="Extract everything as pe
 
         error_msg = f"❌ Unexpected error in send_msg_to_ai: {str(e)}"
 
-        report_error(error_msg)
+        report_error(f"Extraction Error: {error_msg}")
 
         return "Extraction Failed: Unexpected internal error"
