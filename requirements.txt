@@ -1,10 +1,10 @@
 gradio~=5.38.2
-python-dotenv~=1.1.0
+python-dotenv
 google-generativeai
-python-docx~=1.1.2
+python-docx
 python-dotenv
 
-protobuf~=5.29.4
+protobuf
 PyMuPDF==1.24.9
 
 google-ai-generativelanguage
@@ -15,5 +15,5 @@ google-auth-httplib2
 google-genai
 google-generativeai
 googleapis-common-protos
-nicegui~=2.21.1
-requests~=2.32.3
+nicegui
+requests
