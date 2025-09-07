@@ -138,6 +138,9 @@ def main_page():
             ui.notify(message='Please Upload a File', type='warning')
             return
 
+        ui.notify('Processing may take 5-15 minutes. Mobile devices may experience connection issues.', type='info',
+                  timeout=5000)
+
         async def background_job():
             try:
                 generate_button.visible = False
