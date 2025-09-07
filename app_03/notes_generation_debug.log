@@ -360,3 +360,87 @@ TypeError: Input.__init__() got an unexpected keyword argument 'type'
 2025-09-07 17:38:51,434 - INFO - Starting Word file generation phase
 2025-09-07 17:38:54,752 - INFO - Processing completed successfully
 2025-09-07 17:39:37,659 - INFO - Resetting application state
+2025-09-07 22:27:10,157 - INFO - File upload initiated: Ch_01.pdf
+2025-09-07 22:27:10,175 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpmlnj8v65.pdf, size: 288840 bytes
+2025-09-07 22:27:10,175 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpmlnj8v65.pdf (type: .pdf)
+2025-09-07 22:27:10,816 - INFO - PDF page count: 2
+2025-09-07 22:27:10,816 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-07 22:27:12,313 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-07 22:27:13,568 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpmlnj8v65.pdf
+2025-09-07 22:27:13,569 - INFO - Starting text extraction phase
+2025-09-07 22:27:13,569 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpmlnj8v65.pdf
+2025-09-07 22:27:13,569 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-07 22:27:13,569 - INFO - Detected MIME type: application/pdf
+2025-09-07 22:27:14,209 - INFO - Gemini client initialized successfully
+2025-09-07 22:27:14,210 - INFO - Successfully read 288840 bytes from file
+2025-09-07 22:27:14,210 - INFO - Sending request to Gemini API
+2025-09-07 22:27:14,224 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-07 22:27:26,267 - ERROR - EXTRACTION ERROR: API_UNKNOWN_ERROR | Server disconnected without sending a response. | Context: Gemini API call
+2025-09-07 22:27:26,271 - ERROR - Full traceback: Traceback (most recent call last):
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\http11.py", line 136, in handle_request
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpcore\_sync\http11.py", line 231, in _receive_event
+    raise RemoteProtocolError(msg)
+httpcore.RemoteProtocolError: Server disconnected without sending a response.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Project Files\Notescraft Remastered\app_03\process_pdf_to_json.py", line 250, in send_msg_to_ai
+    response = client.models.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 5019, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 3995, in _generate_content
+    response_dict = self._api_client.request(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 726, in request
+    response = self._request(http_request, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 648, in _request
+    response = self._httpx_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.RemoteProtocolError: Server disconnected without sending a response.
+
