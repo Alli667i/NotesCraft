@@ -325,9 +325,9 @@ class ErrorHandler:
                 "We're experiencing a temporary service issue. Our technical team has been automatically notified and is working on a fix. Please try again shortly."
             ),
             "EXTRACTION_FAILED": (
-                "📄 Document Processing Issue",
-                "We had trouble reading your document. This can happen with complex formatting or scanned documents. Please try uploading a different document or the same document in a different format."
-            ),
+            "⚠️ Processing Error",
+            "Something went wrong while processing your document. This could be due to server issues or document complexity. Please try again in a moment, or contact support if the problem persists."
+),
             "NOTES_GENERATION_FAILED": (
                 "🤖 AI Processing Issue",
                 "Our AI had trouble generating notes from your document. This is usually temporary. Please try again, and if the issue persists, try with a different document."
