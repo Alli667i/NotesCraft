@@ -30,8 +30,8 @@ html, body, #__nicegui_root {
 """)
 
 # File validation constants
-MAX_PAGES = 10
-MAX_FILE_SIZE_MB = 50  # Additional safety check
+MAX_PAGES = 20
+MAX_FILE_SIZE_MB = 70  # Additional safety check
 
 
 def count_pages(file_path):

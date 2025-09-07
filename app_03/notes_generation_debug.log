@@ -444,3 +444,108 @@ Traceback (most recent call last):
     raise mapped_exc(message) from exc
 httpx.RemoteProtocolError: Server disconnected without sending a response.
 
+2025-09-07 22:51:51,215 - INFO - File upload initiated: 10_pages.pdf
+2025-09-07 22:51:51,248 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpbvuzu_7z.pdf, size: 579880 bytes
+2025-09-07 22:51:51,248 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpbvuzu_7z.pdf (type: .pdf)
+2025-09-07 22:51:51,818 - INFO - PDF page count: 10
+2025-09-07 22:51:51,818 - INFO - File validation successful: 10 pages, 0.6MB
+2025-09-07 22:51:52,698 - INFO - File upload confirmed: 10_pages.pdf
+2025-09-07 22:51:53,376 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpbvuzu_7z.pdf
+2025-09-07 22:51:53,376 - INFO - Starting text extraction phase
+2025-09-07 22:51:53,376 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpbvuzu_7z.pdf
+2025-09-07 22:51:53,376 - INFO - File size: 579880 bytes (0.55 MB)
+2025-09-07 22:51:53,376 - INFO - Detected MIME type: application/pdf
+2025-09-07 22:51:54,001 - INFO - Gemini client initialized successfully
+2025-09-07 22:51:54,002 - INFO - Successfully read 579880 bytes from file
+2025-09-07 22:51:54,002 - INFO - Sending request to Gemini API
+2025-09-07 22:51:54,004 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-07 22:53:00,962 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-07 22:53:00,998 - INFO - AFC remote call 1 is done.
+2025-09-07 22:53:00,999 - INFO - Received response from Gemini API
+2025-09-07 22:53:00,999 - INFO - Successfully extracted 34340 characters from response
+2025-09-07 22:53:01,000 - INFO - Token usage - Input: 2943, Output: 6937, Total: 18369
+2025-09-07 22:53:01,001 - INFO - Successfully parsed JSON with 14 sections
+2025-09-07 22:53:01,002 - INFO - Successfully extracted and parsed content with 14 sections
+2025-09-07 22:53:01,006 - INFO - Text extraction completed successfully
+2025-09-07 22:53:01,007 - INFO - Starting notes generation phase
+2025-09-07 22:53:01,008 - INFO - Starting notes generation process
+2025-09-07 22:53:01,009 - INFO - Processing 14 content sections
+2025-09-07 22:53:01,011 - INFO - Gemini model initialized successfully
+2025-09-07 22:53:01,012 - INFO - Processing section 1/14: Ten Principles of Economics...
+2025-09-07 22:53:14,213 - INFO - Section 1 tokens - Input: 846, Output: 806, Total: 2828
+2025-09-07 22:53:14,213 - INFO - Processing section 2/14: How People Make Decisions...
+2025-09-07 22:53:19,995 - INFO - Section 2 tokens - Input: 349, Output: 182, Total: 1349
+2025-09-07 22:53:19,996 - INFO - Processing section 3/14: Principle 1: People Face Trade-offs...
+2025-09-07 22:53:27,572 - INFO - Section 3 tokens - Input: 1046, Output: 943, Total: 2421
+2025-09-07 22:53:27,572 - INFO - Processing section 4/14: Principle 2: The Cost of Something Is What You Giv...
+2025-09-07 22:53:35,766 - INFO - Section 4 tokens - Input: 628, Output: 536, Total: 2249
+2025-09-07 22:53:35,767 - INFO - Processing section 5/14: Principle 3: Rational People Think at the Margin...
+2025-09-07 22:53:44,150 - INFO - Section 5 tokens - Input: 1009, Output: 1094, Total: 2804
+2025-09-07 22:53:44,151 - INFO - Processing section 6/14: Principle 4: People Respond to Incentives...
+2025-09-07 22:53:55,573 - INFO - Section 6 tokens - Input: 1120, Output: 1019, Total: 3278
+2025-09-07 22:53:55,574 - INFO - Processing section 7/14: CASE STUDY The Incentive Effects of Gasoline Price...
+2025-09-07 22:54:04,467 - INFO - Section 7 tokens - Input: 879, Output: 739, Total: 2534
+2025-09-07 22:54:04,467 - INFO - Processing section 8/14: Incentive Pay...
+2025-09-07 22:54:11,131 - INFO - Section 8 tokens - Input: 310, Output: 203, Total: 1452
+2025-09-07 22:54:11,131 - INFO - Processing section 9/14: Where the Buses Run on Time...
+2025-09-07 22:54:25,095 - INFO - Section 9 tokens - Input: 940, Output: 987, Total: 3772
+2025-09-07 22:54:25,096 - INFO - Processing section 10/14: How People Interact...
+2025-09-07 22:54:29,119 - INFO - Section 10 tokens - Input: 310, Output: 99, Total: 884
+2025-09-07 22:54:29,119 - INFO - Processing section 11/14: Principle 5: Trade Can Make Everyone Better Off...
+2025-09-07 22:54:37,446 - INFO - Section 11 tokens - Input: 645, Output: 706, Total: 2490
+2025-09-07 22:54:37,446 - INFO - Processing section 12/14: Principle 6: Markets Are Usually a Good Way to Org...
+2025-09-07 22:54:51,489 - INFO - Section 12 tokens - Input: 961, Output: 1225, Total: 3950
+2025-09-07 22:54:51,490 - INFO - Processing section 13/14: Principle 7: Governments Can Sometimes Improve Mar...
+2025-09-07 22:55:01,624 - INFO - Section 13 tokens - Input: 691, Output: 814, Total: 2860
+2025-09-07 22:55:01,625 - INFO - Processing section 14/14: FYI Adam Smith and the Invisible Hand...
+2025-09-07 22:55:10,988 - INFO - Section 14 tokens - Input: 792, Output: 865, Total: 2579
+2025-09-07 22:55:10,988 - INFO - Successfully processed 14 sections
+2025-09-07 22:55:10,991 - INFO - Token usage summary - Total: 35450, Input: 10526, Output: 10218
+2025-09-07 22:55:10,991 - INFO - Validating JSON output (length: 39352)
+2025-09-07 22:55:10,993 - INFO - JSON parsed successfully on first attempt
+2025-09-07 22:55:10,999 - INFO - Notes generation completed successfully with 243 note sections
+2025-09-07 22:55:11,001 - INFO - Notes generation completed successfully
+2025-09-07 22:55:11,001 - INFO - Starting Word file generation phase
+2025-09-07 22:55:14,373 - INFO - Processing completed successfully
+2025-09-07 23:00:59,897 - INFO - Resetting application state
+2025-09-07 23:19:41,120 - INFO - File upload initiated: Ch_01.pdf
+2025-09-07 23:19:41,220 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmp91pb4mk_.pdf, size: 288840 bytes
+2025-09-07 23:19:41,220 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmp91pb4mk_.pdf (type: .pdf)
+2025-09-07 23:19:41,988 - INFO - PDF page count: 2
+2025-09-07 23:19:41,988 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-07 23:19:42,874 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-07 23:19:43,642 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmp91pb4mk_.pdf
+2025-09-07 23:19:43,642 - INFO - Starting text extraction phase
+2025-09-07 23:19:43,642 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmp91pb4mk_.pdf
+2025-09-07 23:19:43,642 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-07 23:19:43,642 - INFO - Detected MIME type: application/pdf
+2025-09-07 23:19:44,304 - INFO - Gemini client initialized successfully
+2025-09-07 23:19:44,305 - INFO - Successfully read 288840 bytes from file
+2025-09-07 23:19:44,305 - INFO - Sending request to Gemini API
+2025-09-07 23:19:44,325 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-07 23:20:04,014 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-07 23:20:04,061 - INFO - AFC remote call 1 is done.
+2025-09-07 23:20:04,061 - INFO - Received response from Gemini API
+2025-09-07 23:20:04,067 - INFO - Successfully extracted 4557 characters from response
+2025-09-07 23:20:04,069 - INFO - Token usage - Input: 879, Output: 942, Total: 4192
+2025-09-07 23:20:04,069 - INFO - Successfully parsed JSON with 3 sections
+2025-09-07 23:20:04,069 - INFO - Successfully extracted and parsed content with 3 sections
+2025-09-07 23:20:04,071 - INFO - Text extraction completed successfully
+2025-09-07 23:20:04,071 - INFO - Starting notes generation phase
+2025-09-07 23:20:04,071 - INFO - Starting notes generation process
+2025-09-07 23:20:04,071 - INFO - Processing 3 content sections
+2025-09-07 23:20:04,073 - INFO - Gemini model initialized successfully
+2025-09-07 23:20:04,073 - INFO - Processing section 1/3: Ten Principles of Economics...
+2025-09-07 23:20:12,622 - INFO - Section 1 tokens - Input: 851, Output: 764, Total: 2197
+2025-09-07 23:20:12,623 - INFO - Processing section 2/3: How People Make Decisions...
+2025-09-07 23:20:16,192 - INFO - Section 2 tokens - Input: 349, Output: 104, Total: 906
+2025-09-07 23:20:16,192 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
+2025-09-07 23:20:21,271 - INFO - Section 3 tokens - Input: 509, Output: 355, Total: 1420
+2025-09-07 23:20:21,271 - INFO - Successfully processed 3 sections
+2025-09-07 23:20:21,271 - INFO - Token usage summary - Total: 4523, Input: 1709, Output: 1223
+2025-09-07 23:20:21,271 - INFO - Validating JSON output (length: 4549)
+2025-09-07 23:20:21,271 - INFO - JSON parsed successfully on first attempt
+2025-09-07 23:20:21,282 - INFO - Notes generation completed successfully with 29 note sections
+2025-09-07 23:20:21,282 - INFO - Notes generation completed successfully
+2025-09-07 23:20:21,282 - INFO - Starting Word file generation phase
+2025-09-07 23:20:24,652 - INFO - Processing completed successfully
