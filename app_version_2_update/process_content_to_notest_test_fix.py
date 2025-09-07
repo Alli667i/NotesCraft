@@ -103,11 +103,11 @@ def generate_notes_from_content(book_text):
         response_validated = safe_get_text(response)
         collect_response.append(response_validated)
 
-        print(f"Input Tokens for request({number}):", response.usage_metadata.prompt_token_count)
-
-        print(f"Output Tokens for request({number}):", response.usage_metadata.candidates_token_count)
-
-        print(f"Total Tokens for request({number}):{response.usage_metadata.total_token_count}\n")
+        # print(f"Input Tokens for request({number}):", response.usage_metadata.prompt_token_count)
+        #
+        # print(f"Output Tokens for request({number}):", response.usage_metadata.candidates_token_count)
+        #
+        # print(f"Total Tokens for request({number}):{response.usage_metadata.total_token_count}\n")
 
         total_input_tokens_used += response.usage_metadata.prompt_token_count
 
@@ -138,7 +138,7 @@ def generate_notes_from_content(book_text):
     print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
 
 
-    print(f"\nGenerated raw Notes: {full_json_array}")
+    # print(f"\nGenerated raw Notes: {full_json_array}")
 
     #This will verify if the whole json is correct and good to use if yes then return it as it is else it will fix it and assign to this variable
     final_json_array = validate_and_fix_json(full_json_array)
