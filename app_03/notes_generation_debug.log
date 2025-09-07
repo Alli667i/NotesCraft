@@ -1,171 +1,362 @@
-2025-09-05 21:32:51,315 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 21:32:51,322 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf, size: 288840 bytes
-2025-09-05 21:32:51,323 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf (type: .pdf)
-2025-09-05 21:32:51,501 - INFO - PDF page count: 2
-2025-09-05 21:32:51,501 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 21:32:52,452 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 21:32:53,300 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf
-2025-09-05 21:32:53,301 - INFO - Starting text extraction phase
-2025-09-05 21:32:53,301 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmp_zz7yemq.pdf
-2025-09-05 21:32:53,302 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
-2025-09-05 21:32:53,302 - ERROR - Full traceback: NoneType: None
+2025-09-06 16:33:36,877 - ERROR - module 'nicegui.ui' has no attribute 'open'
+Traceback (most recent call last):
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\events.py", line 433, in handle_event
+    result = cast(Callable[[], Any], handler)()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Notescraft Remastered\app_03\app_test.py", line 321, in check_password
+    ui.open('/logs')
+    ^^^^^^^
+AttributeError: module 'nicegui.ui' has no attribute 'open'
+2025-09-06 16:33:37,170 - INFO - 2 changes detected
+2025-09-06 16:33:40,450 - INFO - 1 change detected
+2025-09-06 16:37:22,438 - INFO - 1 change detected
+2025-09-06 16:37:22,392 - ERROR - Input.__init__() got an unexpected keyword argument 'type'
+  + Exception Group Traceback (most recent call last):
+  |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 76, in collapse_excgroups
+  |     yield
+  |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 177, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\anyio\_backends\_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    |     await self.app(scope, receive, _send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    |     await self.app(scope, receive, send_wrapper)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |                                    ^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    |     self.gen.throw(value)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\storage.py", line 34, in dispatch
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |                                    ^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    |     self.gen.throw(value)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\middlewares.py", line 23, in dispatch
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    |     with recv_stream, send_stream, collapse_excgroups():
+    |                                    ^^^^^^^^^^^^^^^^^^^^
+    |   File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    |     self.gen.throw(value)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    |     raise exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    |     response = await self.dispatch_func(request, call_next)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\middlewares.py", line 13, in dispatch
+    |     response = await call_next(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    |     raise app_exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    |     await self.app(scope, receive_or_disconnect, send_no_error)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 29, in __call__
+    |     await responder(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 126, in __call__
+    |     await super().__call__(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 46, in __call__
+    |     await self.app(scope, receive, self.send_with_compression)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    |     await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 714, in __call__
+    |     await self.middleware_stack(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 734, in app
+    |     await route.handle(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 288, in handle
+    |     await self.app(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 76, in app
+    |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    |     raise exc
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 73, in app
+    |     response = await f(request)
+    |                ^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\fastapi\routing.py", line 301, in app
+    |     raw_response = await run_endpoint_function(
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    |     return await dependant.call(**values)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 148, in decorated
+    |     return create_error_page(e, request)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 115, in create_error_page
+    |     raise e
+    |   File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 146, in decorated
+    |     result = func(*dec_args, **dec_kwargs)
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "D:\Project Files\Notescraft Remastered\app_03\app_test.py", line 374, in logs_page
+    |     limit_input = ui.input('Limit', value='100', type='number').classes('w-24')
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    | TypeError: Input.__init__() got an unexpected keyword argument 'type'
+    +------------------------------------
 
-2025-09-05 21:32:57,221 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
-2025-09-05 21:32:57,221 - ERROR - Full traceback: NoneType: None
+During handling of the above exception, another exception occurred:
 
-2025-09-05 21:33:49,100 - INFO - Resetting application state
-2025-09-05 21:33:57,251 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 21:33:57,581 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf, size: 288840 bytes
-2025-09-05 21:33:57,581 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf (type: .pdf)
-2025-09-05 21:33:57,607 - INFO - PDF page count: 2
-2025-09-05 21:33:57,607 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 21:33:58,428 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 21:33:59,092 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf
-2025-09-05 21:33:59,092 - INFO - Starting text extraction phase
-2025-09-05 21:33:59,092 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmphfiaemba.pdf
-2025-09-05 21:33:59,093 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
-2025-09-05 21:33:59,093 - ERROR - Full traceback: NoneType: None
+Traceback (most recent call last):
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\storage.py", line 34, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    raise app_exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\middlewares.py", line 23, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    raise app_exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 176, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mohee\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_utils.py", line 82, in collapse_excgroups
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 178, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\middlewares.py", line 13, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 156, in call_next
+    raise app_exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\base.py", line 141, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 29, in __call__
+    await responder(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 126, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\gzip.py", line 46, in __call__
+    await self.app(scope, receive, self.send_with_compression)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 714, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 734, in app
+    await route.handle(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\starlette\routing.py", line 73, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\fastapi\routing.py", line 301, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\fastapi\routing.py", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 148, in decorated
+    return create_error_page(e, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 115, in create_error_page
+    raise e
+  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\nicegui\page.py", line 146, in decorated
+    result = func(*dec_args, **dec_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Project Files\Notescraft Remastered\app_03\app_test.py", line 374, in logs_page
+    limit_input = ui.input('Limit', value='100', type='number').classes('w-24')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Input.__init__() got an unexpected keyword argument 'type'
+2025-09-06 16:37:27,671 - INFO - 1 change detected
+2025-09-06 16:40:18,444 - INFO - 1 change detected
+2025-09-06 16:40:24,901 - INFO - 1 change detected
+2025-09-06 16:40:32,668 - INFO - File upload initiated: Ch_01.pdf
+2025-09-06 16:40:32,681 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpk49amwco.pdf, size: 288840 bytes
+2025-09-06 16:40:32,681 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpk49amwco.pdf (type: .pdf)
+2025-09-06 16:40:33,242 - INFO - PDF page count: 2
+2025-09-06 16:40:33,242 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-06 16:40:34,630 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-06 16:40:42,054 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpk49amwco.pdf
+2025-09-06 16:40:42,054 - INFO - Starting text extraction phase
+2025-09-06 16:40:42,055 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpk49amwco.pdf
+2025-09-06 16:40:42,055 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
+2025-09-06 16:40:42,055 - ERROR - Full traceback: NoneType: None
 
-2025-09-05 21:34:02,165 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
-2025-09-05 21:34:02,165 - ERROR - Full traceback: NoneType: None
-
-2025-09-05 21:39:34,106 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 21:39:34,113 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf, size: 288840 bytes
-2025-09-05 21:39:34,113 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf (type: .pdf)
-2025-09-05 21:39:34,141 - INFO - PDF page count: 2
-2025-09-05 21:39:34,141 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 21:39:35,028 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 21:39:36,068 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf
-2025-09-05 21:39:36,069 - INFO - Starting text extraction phase
-2025-09-05 21:39:36,069 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpvef4yebk.pdf
-2025-09-05 21:39:36,069 - ERROR - EXTRACTION ERROR: API_KEY_MISSING | GOOGLE_API_KEY environment variable not set | Context: Initialization
-2025-09-05 21:39:36,069 - ERROR - Full traceback: NoneType: None
-
-2025-09-05 21:39:39,083 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: Missing API key configuration | Action: Text extraction
-2025-09-05 21:39:39,084 - ERROR - Full traceback: No traceback available
-2025-09-05 21:39:42,195 - INFO - Error report sent successfully. Response: 200
-2025-09-05 21:39:57,884 - INFO - Resetting application state
-2025-09-05 21:40:51,418 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 21:40:51,428 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf, size: 288840 bytes
-2025-09-05 21:40:51,428 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf (type: .pdf)
-2025-09-05 21:40:51,460 - INFO - PDF page count: 2
-2025-09-05 21:40:51,460 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 21:40:52,652 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 21:40:53,285 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf
-2025-09-05 21:40:53,285 - INFO - Starting text extraction phase
-2025-09-05 21:40:53,286 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmppfb2p4vw.pdf
-2025-09-05 21:40:53,286 - INFO - File size: 288840 bytes (0.28 MB)
-2025-09-05 21:40:53,286 - INFO - Detected MIME type: application/pdf
-2025-09-05 21:40:53,875 - INFO - Gemini client initialized successfully
-2025-09-05 21:40:53,876 - INFO - Successfully read 288840 bytes from file
-2025-09-05 21:40:53,876 - INFO - Sending request to Gemini API
-2025-09-05 21:40:53,969 - INFO - AFC is enabled with max remote calls: 10.
-2025-09-05 21:40:54,974 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 400 Bad Request"
-2025-09-05 21:40:55,012 - ERROR - EXTRACTION ERROR: API_KEY_ERROR | 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key not valid. Please pass a valid API key.'}]}} | Context: Gemini API call
-2025-09-05 21:40:55,015 - ERROR - Full traceback: Traceback (most recent call last):
-  File "D:\Project Files\Notescraft Remastered\app_03\process_pdf_to_json.py", line 250, in send_msg_to_ai
-    response = client.models.generate_content(
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 5019, in generate_content
-    response = self._generate_content(
-               ^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\models.py", line 3995, in _generate_content
-    response_dict = self._api_client.request(
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 726, in request
-    response = self._request(http_request, stream=False)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\_api_client.py", line 655, in _request
-    errors.APIError.raise_for_response(response)
-  File "D:\Project Files\Project_Prototype\.venv1\Lib\site-packages\google\genai\errors.py", line 101, in raise_for_response
-    raise ClientError(status_code, response_json, response)
-google.genai.errors.ClientError: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key not valid. Please pass a valid API key.'}]}}
-
-2025-09-05 21:40:57,891 - ERROR - ERROR: API_KEY_MISSING | API_KEY_ERROR: AI service error during processing | Action: Text extraction
-2025-09-05 21:40:57,891 - ERROR - Full traceback: No traceback available
-2025-09-05 21:41:00,987 - INFO - Error report sent successfully. Response: 200
-2025-09-05 21:42:19,273 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 21:42:19,285 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf, size: 288840 bytes
-2025-09-05 21:42:19,285 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf (type: .pdf)
-2025-09-05 21:42:19,307 - INFO - PDF page count: 2
-2025-09-05 21:42:19,307 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 21:42:20,469 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 21:42:21,253 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf
-2025-09-05 21:42:21,253 - INFO - Starting text extraction phase
-2025-09-05 21:42:21,254 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpqox738uo.pdf
-2025-09-05 21:42:21,254 - INFO - File size: 288840 bytes (0.28 MB)
-2025-09-05 21:42:21,254 - INFO - Detected MIME type: application/pdf
-2025-09-05 21:42:21,588 - INFO - Gemini client initialized successfully
-2025-09-05 21:42:21,589 - INFO - Successfully read 288840 bytes from file
-2025-09-05 21:42:21,589 - INFO - Sending request to Gemini API
-2025-09-05 21:42:21,589 - INFO - AFC is enabled with max remote calls: 10.
-2025-09-05 21:42:43,070 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
-2025-09-05 21:42:43,093 - INFO - AFC remote call 1 is done.
-2025-09-05 21:42:43,093 - INFO - Received response from Gemini API
-2025-09-05 21:42:43,094 - INFO - Successfully extracted 4546 characters from response
-2025-09-05 21:42:43,094 - INFO - Token usage - Input: 879, Output: 932, Total: 4712
-2025-09-05 21:42:43,095 - INFO - Successfully parsed JSON with 3 sections
-2025-09-05 21:42:43,095 - INFO - Successfully extracted and parsed content with 3 sections
-2025-09-05 21:42:43,096 - INFO - Text extraction completed successfully
-2025-09-05 21:42:43,097 - INFO - Starting notes generation phase
-2025-09-05 21:42:43,098 - INFO - Starting notes generation process
-2025-09-05 21:42:43,100 - INFO - Processing 3 content sections
-2025-09-05 21:42:43,101 - INFO - Gemini model initialized successfully
-2025-09-05 21:42:43,101 - INFO - Processing section 1/3: Ten Principles of Economics...
-2025-09-05 21:42:54,451 - INFO - Section 1 tokens - Input: 844, Output: 543, Total: 2996
-2025-09-05 21:42:54,451 - INFO - Processing section 2/3: How People Make Decisions...
-2025-09-05 21:42:58,531 - INFO - Section 2 tokens - Input: 349, Output: 233, Total: 1061
-2025-09-05 21:42:58,532 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
-2025-09-05 21:43:03,551 - INFO - Section 3 tokens - Input: 507, Output: 378, Total: 1330
-2025-09-05 21:43:03,551 - INFO - Successfully processed 3 sections
-2025-09-05 21:43:03,551 - INFO - Token usage summary - Total: 5387, Input: 1700, Output: 1154
-2025-09-05 21:43:03,552 - INFO - Validating JSON output (length: 4814)
-2025-09-05 21:43:03,552 - INFO - JSON parsed successfully on first attempt
-2025-09-05 21:43:03,553 - INFO - Notes generation completed successfully with 28 note sections
-2025-09-05 21:43:03,554 - INFO - Notes generation completed successfully
-2025-09-05 21:43:03,554 - INFO - Starting Word file generation phase
-2025-09-05 21:43:03,961 - INFO - 2 changes detected
-2025-09-05 21:43:06,882 - INFO - Processing completed successfully
-2025-09-05 22:57:42,920 - INFO - File upload initiated: Ch_01.pdf
-2025-09-05 22:57:42,929 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf, size: 288840 bytes
-2025-09-05 22:57:42,931 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf (type: .pdf)
-2025-09-05 22:57:43,515 - INFO - PDF page count: 2
-2025-09-05 22:57:43,515 - INFO - File validation successful: 2 pages, 0.3MB
-2025-09-05 22:57:44,537 - INFO - File upload confirmed: Ch_01.pdf
-2025-09-05 22:57:45,529 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf
-2025-09-05 22:57:45,530 - INFO - Starting text extraction phase
-2025-09-05 22:57:45,531 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmplzk62454.pdf
-2025-09-05 22:57:45,531 - INFO - File size: 288840 bytes (0.28 MB)
-2025-09-05 22:57:45,531 - INFO - Detected MIME type: application/pdf
-2025-09-05 22:57:46,029 - INFO - Gemini client initialized successfully
-2025-09-05 22:57:46,030 - INFO - Successfully read 288840 bytes from file
-2025-09-05 22:57:46,030 - INFO - Sending request to Gemini API
-2025-09-05 22:57:46,030 - INFO - AFC is enabled with max remote calls: 10.
-2025-09-05 22:58:03,454 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
-2025-09-05 22:58:03,462 - INFO - AFC remote call 1 is done.
-2025-09-05 22:58:03,463 - INFO - Received response from Gemini API
-2025-09-05 22:58:03,463 - INFO - Successfully extracted 4582 characters from response
-2025-09-05 22:58:03,464 - INFO - Token usage - Input: 879, Output: 965, Total: 4036
-2025-09-05 22:58:03,464 - INFO - Successfully parsed JSON with 3 sections
-2025-09-05 22:58:03,464 - INFO - Successfully extracted and parsed content with 3 sections
-2025-09-05 22:58:03,466 - INFO - Text extraction completed successfully
-2025-09-05 22:58:03,466 - INFO - Starting notes generation phase
-2025-09-05 22:58:03,468 - INFO - Starting notes generation process
-2025-09-05 22:58:03,469 - INFO - Processing 3 content sections
-2025-09-05 22:58:03,470 - INFO - Gemini model initialized successfully
-2025-09-05 22:58:03,471 - INFO - Processing section 1/3: Ten Principles of Economics...
-2025-09-05 22:58:13,510 - INFO - Section 1 tokens - Input: 858, Output: 761, Total: 2563
-2025-09-05 22:58:13,511 - INFO - Processing section 2/3: How People Make Decisions...
-2025-09-05 22:58:17,688 - INFO - Section 2 tokens - Input: 349, Output: 307, Total: 1097
-2025-09-05 22:58:17,688 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
-2025-09-05 22:58:22,578 - INFO - Section 3 tokens - Input: 511, Output: 508, Total: 1496
-2025-09-05 22:58:22,578 - INFO - Successfully processed 3 sections
-2025-09-05 22:58:22,579 - INFO - Token usage summary - Total: 5156, Input: 1718, Output: 1576
-2025-09-05 22:58:22,579 - INFO - Validating JSON output (length: 5921)
-2025-09-05 22:58:22,580 - INFO - JSON parsed successfully on first attempt
-2025-09-05 22:58:22,580 - INFO - Notes generation completed successfully with 38 note sections
-2025-09-05 22:58:22,581 - INFO - Notes generation completed successfully
-2025-09-05 22:58:22,582 - INFO - Starting Word file generation phase
-2025-09-05 22:58:23,018 - INFO - 2 changes detected
-2025-09-05 22:58:24,943 - INFO - Processing completed successfully
-2025-09-05 22:59:15,713 - INFO - Resetting application state
+2025-09-06 16:40:45,875 - INFO - 1 change detected
+2025-09-06 16:40:51,524 - INFO - 1 change detected
+2025-09-06 16:44:22,560 - INFO - 1 change detected
+2025-09-06 16:44:53,774 - INFO - Resetting application state
+2025-09-07 16:33:37,595 - INFO - 1 change detected
+2025-09-07 16:33:40,010 - INFO - 1 change detected
+2025-09-07 16:46:03,980 - INFO - 1 change detected
+2025-09-07 16:46:18,755 - INFO - 2 changes detected
+2025-09-07 16:46:38,173 - INFO - 2 changes detected
+2025-09-07 16:46:39,181 - INFO - 1 change detected
+2025-09-07 16:46:39,533 - INFO - 1 change detected
+2025-09-07 16:47:30,852 - INFO - 1 change detected
+2025-09-07 16:48:28,683 - INFO - 1 change detected
+2025-09-07 16:48:55,839 - INFO - 1 change detected
+2025-09-07 16:49:10,004 - INFO - 1 change detected
+2025-09-07 16:49:12,170 - INFO - 1 change detected
+2025-09-07 16:50:22,564 - INFO - 1 change detected
+2025-09-07 16:50:26,800 - INFO - 1 change detected
+2025-09-07 16:50:34,022 - INFO - 2 changes detected
+2025-09-07 16:50:35,136 - INFO - 1 change detected
+2025-09-07 16:51:13,468 - INFO - 1 change detected
+2025-09-07 16:52:07,282 - INFO - 1 change detected
+2025-09-07 16:55:24,543 - INFO - 1 change detected
+2025-09-07 16:55:26,415 - INFO - File upload initiated: Ch_01.pdf
+2025-09-07 16:55:26,424 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmp2htb7ttt.pdf, size: 288840 bytes
+2025-09-07 16:55:26,424 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmp2htb7ttt.pdf (type: .pdf)
+2025-09-07 16:55:27,131 - INFO - PDF page count: 2
+2025-09-07 16:55:27,131 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-07 16:55:28,172 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-07 16:55:29,123 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmp2htb7ttt.pdf
+2025-09-07 16:55:29,123 - INFO - Starting text extraction phase
+2025-09-07 16:55:29,123 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmp2htb7ttt.pdf
+2025-09-07 16:55:29,124 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-07 16:55:29,124 - INFO - Detected MIME type: application/pdf
+2025-09-07 16:55:29,764 - INFO - Gemini client initialized successfully
+2025-09-07 16:55:29,765 - INFO - Successfully read 288840 bytes from file
+2025-09-07 16:55:29,765 - INFO - Sending request to Gemini API
+2025-09-07 16:55:29,766 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-07 16:55:31,394 - INFO - 1 change detected
+2025-09-07 16:55:49,356 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-07 16:55:49,359 - INFO - AFC remote call 1 is done.
+2025-09-07 16:55:49,360 - INFO - Received response from Gemini API
+2025-09-07 16:55:49,360 - INFO - Successfully extracted 4560 characters from response
+2025-09-07 16:55:49,360 - INFO - Token usage - Input: 879, Output: 946, Total: 4140
+2025-09-07 16:55:49,360 - INFO - Successfully parsed JSON with 3 sections
+2025-09-07 16:55:49,360 - INFO - Successfully extracted and parsed content with 3 sections
+2025-09-07 16:55:49,361 - INFO - Text extraction completed successfully
+2025-09-07 16:55:49,361 - INFO - Starting notes generation phase
+2025-09-07 16:55:49,361 - INFO - Starting notes generation process
+2025-09-07 16:55:49,361 - INFO - Processing 3 content sections
+2025-09-07 16:55:49,362 - INFO - Gemini model initialized successfully
+2025-09-07 16:55:49,362 - INFO - Processing section 1/3: Ten Principles of Economics...
+2025-09-07 16:55:57,467 - INFO - 1 change detected
+2025-09-07 16:55:57,887 - INFO - Section 1 tokens - Input: 852, Output: 702, Total: 2223
+2025-09-07 16:55:57,888 - INFO - Processing section 2/3: How People Make Decisions...
+2025-09-07 16:56:01,698 - INFO - 1 change detected
+2025-09-07 16:56:02,001 - INFO - Section 2 tokens - Input: 349, Output: 199, Total: 1063
+2025-09-07 16:56:02,001 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
+2025-09-07 16:56:07,274 - INFO - Section 3 tokens - Input: 507, Output: 440, Total: 1437
+2025-09-07 16:56:07,274 - INFO - Successfully processed 3 sections
+2025-09-07 16:56:07,275 - INFO - Token usage summary - Total: 4723, Input: 1708, Output: 1341
+2025-09-07 16:56:07,275 - INFO - Validating JSON output (length: 4921)
+2025-09-07 16:56:07,275 - INFO - JSON parsed successfully on first attempt
+2025-09-07 16:56:07,275 - INFO - Notes generation completed successfully with 33 note sections
+2025-09-07 16:56:07,275 - INFO - Notes generation completed successfully
+2025-09-07 16:56:07,275 - INFO - Starting Word file generation phase
+2025-09-07 16:56:07,640 - INFO - 2 changes detected
+2025-09-07 16:56:10,585 - INFO - Processing completed successfully
+2025-09-07 16:56:13,983 - INFO - 2 changes detected
+2025-09-07 16:56:15,153 - INFO - 1 change detected
+2025-09-07 16:58:19,948 - INFO - 1 change detected
+2025-09-07 17:05:51,563 - INFO - 1 change detected
+2025-09-07 17:05:53,932 - INFO - 2 changes detected
+2025-09-07 17:05:55,703 - INFO - 2 changes detected
+2025-09-07 17:06:07,081 - INFO - 2 changes detected
+2025-09-07 17:06:08,344 - INFO - 1 change detected
+2025-09-07 17:37:59,301 - INFO - File upload initiated: Ch_01.pdf
+2025-09-07 17:37:59,319 - INFO - Validating file: C:\Users\mohee\AppData\Local\Temp\tmpp1cx7iw4.pdf, size: 288840 bytes
+2025-09-07 17:37:59,319 - INFO - Counting pages for file: C:\Users\mohee\AppData\Local\Temp\tmpp1cx7iw4.pdf (type: .pdf)
+2025-09-07 17:37:59,885 - INFO - PDF page count: 2
+2025-09-07 17:37:59,885 - INFO - File validation successful: 2 pages, 0.3MB
+2025-09-07 17:38:00,932 - INFO - File upload confirmed: Ch_01.pdf
+2025-09-07 17:38:01,995 - INFO - Starting AI processing for file: C:\Users\mohee\AppData\Local\Temp\tmpp1cx7iw4.pdf
+2025-09-07 17:38:01,995 - INFO - Starting text extraction phase
+2025-09-07 17:38:01,996 - INFO - Starting extraction for file: C:\Users\mohee\AppData\Local\Temp\tmpp1cx7iw4.pdf
+2025-09-07 17:38:01,996 - INFO - File size: 288840 bytes (0.28 MB)
+2025-09-07 17:38:01,996 - INFO - Detected MIME type: application/pdf
+2025-09-07 17:38:02,504 - INFO - Gemini client initialized successfully
+2025-09-07 17:38:02,505 - INFO - Successfully read 288840 bytes from file
+2025-09-07 17:38:02,505 - INFO - Sending request to Gemini API
+2025-09-07 17:38:02,507 - INFO - AFC is enabled with max remote calls: 10.
+2025-09-07 17:38:20,970 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-09-07 17:38:22,351 - INFO - AFC remote call 1 is done.
+2025-09-07 17:38:22,352 - INFO - Received response from Gemini API
+2025-09-07 17:38:22,352 - INFO - Successfully extracted 4563 characters from response
+2025-09-07 17:38:22,352 - INFO - Token usage - Input: 879, Output: 948, Total: 3596
+2025-09-07 17:38:22,352 - INFO - Successfully parsed JSON with 3 sections
+2025-09-07 17:38:22,352 - INFO - Successfully extracted and parsed content with 3 sections
+2025-09-07 17:38:22,352 - INFO - Text extraction completed successfully
+2025-09-07 17:38:22,352 - INFO - Starting notes generation phase
+2025-09-07 17:38:22,353 - INFO - Starting notes generation process
+2025-09-07 17:38:22,353 - INFO - Processing 3 content sections
+2025-09-07 17:38:22,353 - INFO - Gemini model initialized successfully
+2025-09-07 17:38:22,354 - INFO - Processing section 1/3: Ten Principles of Economics...
+2025-09-07 17:38:41,810 - INFO - Section 1 tokens - Input: 851, Output: 1051, Total: 4447
+2025-09-07 17:38:41,810 - INFO - Processing section 2/3: How People Make Decisions...
+2025-09-07 17:38:45,595 - INFO - Section 2 tokens - Input: 349, Output: 186, Total: 908
+2025-09-07 17:38:45,595 - INFO - Processing section 3/3: Principle 1: People Face Trade-offs...
+2025-09-07 17:38:51,431 - INFO - Section 3 tokens - Input: 509, Output: 448, Total: 1629
+2025-09-07 17:38:51,432 - INFO - Successfully processed 3 sections
+2025-09-07 17:38:51,432 - INFO - Token usage summary - Total: 6984, Input: 1709, Output: 1685
+2025-09-07 17:38:51,432 - INFO - Validating JSON output (length: 6146)
+2025-09-07 17:38:51,432 - INFO - JSON parsed successfully on first attempt
+2025-09-07 17:38:51,433 - INFO - Notes generation completed successfully with 43 note sections
+2025-09-07 17:38:51,433 - INFO - Notes generation completed successfully
+2025-09-07 17:38:51,434 - INFO - Starting Word file generation phase
+2025-09-07 17:38:54,752 - INFO - Processing completed successfully
+2025-09-07 17:39:37,659 - INFO - Resetting application state
