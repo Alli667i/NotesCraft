@@ -47,7 +47,7 @@ html, body, #__nicegui_root {
 """)
 
 # Defined range for n.o of allowed pages per generation
-MAX_PAGES = 20
+MAX_PAGES = 25
 MAX_FILE_SIZE_MB = 70  # Additional safety check
 
 # Count number of pages in the uploaded file
@@ -278,10 +278,9 @@ class SimpleUserAuth:
 user_auth = SimpleUserAuth()
 
 
-
 # User Login Page UI
 def show_beautiful_user_login():
-    """Simple centered login page"""
+    """Simple centered login page with early access signup"""
     ui.add_head_html('<title>NotesCraft AI - Login</title>')
 
     # Simple CSS
@@ -294,6 +293,10 @@ def show_beautiful_user_login():
         .login-card {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .signup-card {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
     </style>
     """)
@@ -338,14 +341,20 @@ def show_beautiful_user_login():
 
                     password_input.on('keydown.enter', handle_login)
 
-                    # Separator
-                    ui.separator().classes('my-4')
+                    # Small text below login form
+                    ui.label("Use credentials given to you when you joined early access").classes(
+                        'text-xs text-gray-500 text-center mt-2')
 
-                    # Help text for new users
-                    ui.label("Don't have access yet?").classes('text-gray-600 text-center text-sm')
-                    ui.button('Contact us for access', on_click=lambda: ui.notify('Email: admin@notescraft.ai')).props(
-                        'flat').classes(
-                        'text-emerald-600 font-medium hover:bg-emerald-50 px-4 py-1 rounded text-sm'
+            # Early access signup card
+            with ui.card().classes('signup-card w-full p-6 mt-6 shadow-md rounded-2xl'):
+                with ui.column().classes('w-full items-center space-y-4'):
+                    ui.label("Don't have early access yet?").classes('text-lg font-semibold text-gray-800 text-center')
+
+                    def join_early_access():
+                        ui.run_javascript("window.open('https://notescraft.proxgate.xyz/#early-access', '_blank')")
+
+                    ui.button('Join Early Access Now', on_click=join_early_access).props('unelevated size=lg').classes(
+                        'bg-blue-500 text-white px-8 py-3 text-lg font-semibold rounded-xl hover:bg-blue-600 transition-colors'
                     )
 
 
@@ -943,7 +952,6 @@ def add_user_management_to_admin():
 
 
 # Main App UI
-
 @ui.page('/')
 def main_page():
     """Protected main page - checks login first"""
@@ -956,9 +964,6 @@ def main_page():
 
     # If they are logged in, show the normal app
     main_page_content()
-
-
-
 
 
 def main_page_content():
@@ -982,40 +987,138 @@ def main_page_content():
             except Exception as e:
                 print(f"Error reporting failed: {e}")
 
-    def handle_error_response(error_result, step_name=""):
-        """
-        Handle error responses from extraction or generation modules.
-        Shows user-friendly message and reports technical error.
-        """
-        if isinstance(error_result, dict) and "error_type" in error_result:
-            # This is our new error format
-            user_message = error_result["user_message"]
-            technical_error = error_result["technical_error"]
-
-            # Report the technical error for debugging
-            report_error(f"{step_name}: {technical_error}")
-
-            # Show user-friendly message in UI
-            error_label.text = f"⚠️ {user_message}"
-
-            return True  # Indicates this was an error
-
-        return False  # Not an error
-
     def reset_app():
-        session.uploaded_file_path = None
-        session.uploaded_file_name = "Notes"
-        session.processing_session_id = None
-        status_label.text = ""
-        download_button.visible = False
-        generate_button.visible = True
-        reset_button.visible = False
-        error_label.text = ""
-        try_again_button.visible = False
-        feedback_button.visible = False
-        error_report_button.visible = False
-        render_upload()
-        ui.notify("Ready for another file!")
+        """Reset app to initial state"""
+        try:
+            # Clear session data
+            session.uploaded_file_path = None
+            session.uploaded_file_name = "Notes"
+            session.processing_session_id = None
+            session.processing_status = "idle"
+            session.processing_result = None
+            session.processing_error = None
+
+            # Reset UI elements
+            download_button.visible = False
+            feedback_button.visible = False
+            reset_button.visible = False
+            try_again_button.visible = False
+            error_report_button.visible = False
+
+            # Clear animations
+            text_extraction_animation.visible = False
+            notes_generation_animation.visible = False
+            word_file_generation_animation.visible = False
+
+            # Clear text elements
+            status_label.text = ""
+            error_label.text = ""
+
+            # Show generate button
+            generate_button.visible = True
+
+            # Re-render upload area
+            render_upload()
+
+            ui.notify("Ready for another file!", type='positive')
+
+        except Exception as e:
+            print(f"Reset error: {e}")
+            ui.notify("Reset failed. Please refresh the page.", type='negative')
+
+    def check_processing_status():
+        """
+        Polling function that runs in main UI thread and can safely update UI
+        """
+        try:
+            if not hasattr(session, 'processing_status'):
+                return
+
+            status = session.processing_status
+
+            if status == "extracting":
+                text_extraction_animation.visible = True
+                notes_generation_animation.visible = False
+                word_file_generation_animation.visible = False
+                status_label.text = "Extracting content from the document..."
+
+            elif status == "generating":
+                text_extraction_animation.visible = False
+                notes_generation_animation.visible = True
+                word_file_generation_animation.visible = False
+                status_label.text = "🛠 Generating Notes"
+
+            elif status == "creating_file":
+                text_extraction_animation.visible = False
+                notes_generation_animation.visible = False
+                word_file_generation_animation.visible = True
+                status_label.text = "📕 Preparing Word file..."
+
+            elif status == "completed":
+                # Success - show download
+                text_extraction_animation.visible = False
+                notes_generation_animation.visible = False
+                word_file_generation_animation.visible = False
+
+                result = session.processing_result
+
+                def trigger_download():
+                    ui.run_javascript(f"""
+                        const link = document.createElement('a');
+                        link.href = "data:{result['mime_type']};base64,{result['base64_data']}";
+                        link.download = "{result['filename']}";
+                        link.click();
+                    """)
+                    file_logger.update_download_status(session.processing_session_id)
+
+                download_button.on('click', trigger_download, [])
+                download_button.visible = True
+                feedback_button.visible = True
+                reset_button.visible = True
+                status_label.text = "✅ Your Notes are Ready!"
+
+                # Clear processing state
+                session.processing_status = "idle"
+                return  # Stop polling
+
+            elif status == "error":
+                # Error - show error UI
+                text_extraction_animation.visible = False
+                notes_generation_animation.visible = False
+                word_file_generation_animation.visible = False
+                generate_button.visible = False
+
+                error = session.processing_error
+                if error:
+                    error_type = error.get("error_type", "")
+                    user_message = error.get("user_message", "An error occurred")
+
+                    if error_type == "API_RATE_LIMIT":
+                        error_label.text = "⚠️ We're processing a lot of requests right now. Please wait a moment and try again."
+                    elif error_type == "API_QUOTA_EXCEEDED":
+                        error_label.text = "⚠️ We've reached our daily processing limit. Please try again tomorrow."
+                    elif error_type == "API_KEY_ERROR":
+                        error_label.text = "⚠️ Service temporarily unavailable. We're working on it!"
+                    else:
+                        error_label.text = f"⚠️ {user_message}"
+
+                status_label.text = ""
+                error_report_button.visible = True
+                try_again_button.visible = True
+
+                # Clear processing state
+                session.processing_status = "idle"
+                return  # Stop polling
+
+            # Continue polling if still processing
+            if status in ["starting", "extracting", "generating", "creating_file"]:
+                ui.timer(1.0, check_processing_status, once=True)  # Check again in 1 second
+
+        except Exception as e:
+            print(f"Error in polling function: {e}")
+            # If polling fails, show error
+            error_label.text = "⚠️ Something went wrong. Please try again."
+            try_again_button.visible = True
 
     async def process_with_ai():
         if not session.uploaded_file_path or not session.uploaded_file_path.exists():
@@ -1025,22 +1128,32 @@ def main_page_content():
         ui.notify('Processing may take 5-10 minutes. Mobile devices may experience connection issues.', type='info',
                   timeout=5000)
 
+        # Set up processing state
+        session.processing_status = "starting"
+        session.processing_result = None
+        session.processing_error = None
+
+        # Start UI updates immediately (before background task)
+        generate_button.visible = False
+        text_extraction_animation.visible = True
+        status_label.text = "Extracting content from the document..."
+
         async def background_job():
+            """
+            Pure background processing - NO UI UPDATES AT ALL
+            Only sets session variables that the polling function can read
+            """
             try:
-                generate_button.visible = False
-                text_extraction_animation.visible = True
-                status_label.text = "Extracting content from the document..."
-                ui.update()
+                session.processing_status = "extracting"
 
                 # --- TEXT EXTRACTION ---
                 try:
                     extracted_json = await run.io_bound(
-                        lambda: send_msg_to_ai(session.uploaded_file_path,session.processing_session_id)
+                        lambda: send_msg_to_ai(session.uploaded_file_path, session.processing_session_id)
                     )
 
-                    # Check if extraction returned an error using our new error handler
-                    if handle_error_response(extracted_json, "Text Extraction"):
-                        # Error was handled, show UI elements and return
+                    # Check if extraction returned an error
+                    if isinstance(extracted_json, dict) and "error_type" in extracted_json:
                         log_processing_failure(
                             session.processing_session_id,
                             extracted_json["error_type"],
@@ -1048,47 +1161,37 @@ def main_page_content():
                             "extraction"
                         )
 
-
-                        text_extraction_animation.visible = False
-                        error_report_button.visible = True
-                        try_again_button.visible = True
-                        status_label.text = ""
-                        ui.update()
+                        session.processing_status = "error"
+                        session.processing_error = extracted_json
                         return
 
                 except Exception as e:
-                    # Unexpected error during extraction
-
                     log_processing_failure(
                         session.processing_session_id,
                         "UNEXPECTED_ERROR",
                         f"Unexpected extraction error: {str(e)}",
                         "extraction"
                     )
-                    report_error(f"Unexpected Background Error: {str(e)}")
-                    error_report_button.visible = True
-                    text_extraction_animation.visible = False
-                    try_again_button.visible = True
-                    error_label.text = "⚠️ Something unexpected happened. Please try again!"
-                    ui.update()
+                    # report_error(f"Unexpected Background Error: {str(e)}")
+
+                    session.processing_status = "error"
+                    session.processing_error = {
+                        "error_type": "UNEXPECTED_ERROR",
+                        "user_message": "Something unexpected happened. Please try again!",
+                        "technical_error": str(e)
+                    }
                     return
 
                 # --- NOTES GENERATION ---
-                text_extraction_animation.visible = False
-                status_label.text = "🛠 Generating Notes"
-                notes_generation_animation.visible = True
-                ui.update()
+                session.processing_status = "generating"
 
                 try:
-                    # notes_generated = await run.io_bound(generate_notes_from_content, extracted_json)
-
                     notes_generated = await run.io_bound(
                         lambda: generate_notes_from_content(extracted_json, session.processing_session_id)
                     )
-                    # Check if notes generation returned an error
-                    if handle_error_response(notes_generated, "Notes Generation"):
-                        # Error was handled, show UI elements and return
 
+                    # Check if notes generation returned an error
+                    if isinstance(notes_generated, dict) and "error_type" in notes_generated:
                         log_processing_failure(
                             session.processing_session_id,
                             notes_generated["error_type"],
@@ -1096,18 +1199,12 @@ def main_page_content():
                             "generation"
                         )
 
-
-                        notes_generation_animation.visible = False
-                        error_report_button.visible = True
-                        try_again_button.visible = True
-                        status_label.text = ""
-                        ui.update()
+                        session.processing_status = "error"
+                        session.processing_error = notes_generated
                         return
 
                     # Additional validation for empty notes
                     if not notes_generated:
-
-
                         log_processing_failure(
                             session.processing_session_id,
                             "NOTES_GENERATION_ERROR",
@@ -1115,17 +1212,16 @@ def main_page_content():
                             "generation"
                         )
 
-                        report_error("Notes Generation Error: Empty content returned")
-                        error_label.text = "⚠️ We couldn't generate any notes from your document. Let's try again!"
-                        notes_generation_animation.visible = False
-                        error_report_button.visible = True
-                        try_again_button.visible = True
-                        status_label.text = ""
-                        ui.update()
+                        # report_error("Notes Generation Error: Empty content returned")
+                        session.processing_status = "error"
+                        session.processing_error = {
+                            "error_type": "NOTES_GENERATION_ERROR",
+                            "user_message": "We couldn't generate any notes from your document. Let's try again!",
+                            "technical_error": "Empty content returned"
+                        }
                         return
 
                 except Exception as e:
-
                     log_processing_failure(
                         session.processing_session_id,
                         "UNEXPECTED_ERROR",
@@ -1133,28 +1229,24 @@ def main_page_content():
                         "generation"
                     )
 
-                    report_error(f"Notes Generation Error: {str(e)}")
-                    print(f"Error: {str(e)}")
-                    error_report_button.visible = True
-                    notes_generation_animation.visible = False
-                    status_label.text = ""
-                    error_label.text = "⚠️We encountered an issue while generating your notes. Please try again."
-                    try_again_button.visible = True
-                    ui.update()
+                    # report_error(f"Notes Generation Error: {str(e)}")
+                    session.processing_status = "error"
+                    session.processing_error = {
+                        "error_type": "UNEXPECTED_ERROR",
+                        "user_message": "We encountered an issue while generating your notes. Please try again.",
+                        "technical_error": str(e)
+                    }
                     return
 
                 # --- WORD FILE CREATION ---
-                notes_generation_animation.visible = False
-                status_label.text = "📕 Preparing Word file..."
-                word_file_generation_animation.visible = True
-                ui.update()
+                session.processing_status = "creating_file"
 
                 try:
                     unique_name = f"{session.uploaded_file_name}_{uuid.uuid4().hex[:6]}.docx"
                     file_generated = await run.io_bound(generate_word_file, notes_generated,
                                                         file_name=unique_name.replace(' ', '_'))
 
-                    # --- PREPARE DOWNLOAD ---
+                    # Prepare download
                     with open(file_generated, 'rb') as f:
                         file_content = f.read()
                     os.remove(file_generated)
@@ -1164,65 +1256,55 @@ def main_page_content():
 
                     log_processing_success(session.processing_session_id)
 
-
-
-                    def trigger_download():
-                        ui.run_javascript(f"""
-                                const link = document.createElement('a');
-                                link.href = "data:{mime_type};base64,{base64_data}";
-                                link.download = "{session.uploaded_file_name}_Notes.docx";
-                                link.click();
-                            """)
-
-                        file_logger.update_download_status(session.processing_session_id)
-
-                    time.sleep(3.5)
-
-                    # Make sure only one listener is active
-                    download_button.on('click', trigger_download, [])
-                    word_file_generation_animation.visible = False
-                    download_button.visible = True
-                    feedback_button.visible = True
-                    status_label.text = "✅ Your Notes are Ready!"
-                    reset_button.visible = True
-                    ui.update()
-
+                    # Store result for polling function
+                    session.processing_result = {
+                        "base64_data": base64_data,
+                        "mime_type": mime_type,
+                        "filename": f"{session.uploaded_file_name}_Notes.docx"
+                    }
+                    session.processing_status = "completed"
 
                 except Exception as e:
-                    # Word file creation error
-                    report_error(f"Word File Creation Error: {str(e)}")
-                    error_label.text = "⚠️ Almost there! Had trouble creating the Word file. Let's retry."
-                    word_file_generation_animation.visible = False
-                    error_report_button.visible = True
-                    try_again_button.visible = True
-                    status_label.text = ""
-                    ui.update()
+                    log_processing_failure(
+                        session.processing_session_id,
+                        "WORD_FILE_ERROR",
+                        f"Word file creation error: {str(e)}",
+                        "word_generation"
+                    )
+
+                    # report_error(f"Word File Creation Error: {str(e)}")
+                    session.processing_status = "error"
+                    session.processing_error = {
+                        "error_type": "WORD_FILE_ERROR",
+                        "user_message": "Almost there! Had trouble creating the Word file. Let's retry.",
+                        "technical_error": str(e)
+                    }
                     return
 
             except Exception as e:
-
-                # --- Catch any unexpected failures ---
+                # Final catch-all error handler
+                print(f"CRITICAL ERROR IN BACKGROUND JOB: {str(e)}")
 
                 log_processing_failure(
                     session.processing_session_id,
-                    "WORD_FILE_ERROR",
-                    f"Word file creation error: {str(e)}",
-                    "word_generation"
+                    "SYSTEM_ERROR",
+                    f"Critical system error: {str(e)}",
+                    "system"
                 )
 
-                report_error(f"System Error: {str(e)}")
-                error_report_button.visible = True
-                print(f"Error: {str(e)}")
-                error_label.text = "⚠️ Something unexpected happened on our end. We're on it!"
-                status_label.text = ""
-                text_extraction_animation.visible = False
-                notes_generation_animation.visible = False
-                word_file_generation_animation.visible = False
-                try_again_button.visible = True
-                ui.update()
+                # report_error(f"CRITICAL System Error: {str(e)}")
+                session.processing_status = "error"
+                session.processing_error = {
+                    "error_type": "SYSTEM_ERROR",
+                    "user_message": "Something unexpected happened on our end. We're on it!",
+                    "technical_error": str(e)
+                }
 
-
+        # Start the background job
         background_tasks.create(background_job())
+
+        # Start polling for updates (this runs in main UI thread)
+        check_processing_status()
 
     # --- UI Layout ---
     with ui.column().classes(
@@ -1276,8 +1358,7 @@ def main_page_content():
                     dialog.close()
 
                     # Get logged in user's email
-
-                    user_email = session.get('user_email','unknown')
+                    user_email = session.get('user_email', 'unknown')
 
                     session.processing_session_id = start_file_processing(
                         temp_file_name,
@@ -1413,9 +1494,6 @@ def main_page_content():
                 'unelevated rounded color=indigo text-color=white').classes(
                 'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
             try_again_button.visible = False
-
-
-
 
 
 

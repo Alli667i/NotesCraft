@@ -41,7 +41,7 @@ class SimpleFileLogger:
         except Exception as e:
             print(f"Failed to write log: {e}")
 
-    def start_processing(self, filename, file_size_mb, page_count):
+    def start_processing(self, filename, file_size_mb, page_count,user_email = None):
         """
         Start tracking a new file processing session.
         Returns a session_id to track this processing.
@@ -51,6 +51,7 @@ class SimpleFileLogger:
         # Initialize session data
         session_data = {
             "session_id": session_id,
+            "user_email": user_email,
             "filename": filename,
             "file_size_mb": round(file_size_mb, 2),
             "page_count": page_count,
@@ -298,9 +299,9 @@ file_logger = SimpleFileLogger()
 
 
 # Convenience functions for easy use
-def start_file_processing(filename, file_size_mb, page_count):
+def start_file_processing(filename, file_size_mb, page_count,user_email=None):
     """Start tracking a new file processing session"""
-    return file_logger.start_processing(filename, file_size_mb, page_count)
+    return file_logger.start_processing(filename, file_size_mb, page_count,user_email)
 
 
 def log_extraction_start(session_id):
