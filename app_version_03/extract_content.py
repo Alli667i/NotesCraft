@@ -109,12 +109,8 @@ def send_msg_to_ai(uploaded_file,session_id= None):
 
         client = genai.Client(api_key=GOOGLE_API_KEY)
 
-        # Detect MIME type dynamically
-        mime_type = (
-            "application/pdf"
-            if uploaded_file.suffix.lower() == ".pdf"
-            else "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
+
+
 
         # Try to read file
         try:
@@ -137,7 +133,7 @@ def send_msg_to_ai(uploaded_file,session_id= None):
                 contents=[
                     types.Part.from_bytes(
                         data=file_data,
-                        mime_type=mime_type
+                        mime_type="application/pdf"
                     )
                 ]
             )

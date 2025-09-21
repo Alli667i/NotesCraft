@@ -1,8 +1,6 @@
 import base64
 import json
 import mimetypes
-import os
-import time
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -48,49 +46,21 @@ html, body, #__nicegui_root {
 
 # Defined range for n.o of allowed pages per generation
 MAX_PAGES = 25
-MAX_FILE_SIZE_MB = 70  # Additional safety check
+MAX_FILE_SIZE_MB = 50  # Additional safety check
 
 # Count number of pages in the uploaded file
 def count_pages(file_path):
-    """
-    Count pages in PDF or DOCX files
-    Returns: (page_count, error_message)
-    """
+    """Count pages in PDF files only"""
     try:
-        file_extension = Path(file_path).suffix.lower()
+        if Path(file_path).suffix.lower() != '.pdf':
+            return 0, "Only PDF files are supported"
 
-        if file_extension == '.pdf':
-            # Count PDF pages using PyMuPDF
-            doc = fitz.open(file_path)
-            page_count = doc.page_count
-            doc.close()
-            return page_count, None
-
-        elif file_extension == '.docx':
-            # Count DOCX pages (approximate based on content)
-            doc = Document(file_path)
-
-            # Method 1: Count paragraphs and estimate pages
-            paragraph_count = len([p for p in doc.paragraphs if p.text.strip()])
-
-            # Rough estimation: ~10-15 paragraphs per page
-            estimated_pages = max(1, paragraph_count // 12)
-
-            # Method 2: Count characters and estimate (more accurate)
-            total_chars = sum(len(p.text) for p in doc.paragraphs)
-            char_based_pages = max(1, total_chars // 3000)  # ~3000 chars per page
-
-            # Use the higher estimate for safety
-            page_count = max(estimated_pages, char_based_pages)
-
-            return page_count, None
-
-        else:
-            return 0, "Unsupported file format"
-
+        doc = fitz.open(file_path)
+        page_count = doc.page_count
+        doc.close()
+        return page_count, None
     except Exception as e:
-        return 0, f"Error reading file: {str(e)}"
-
+        return 0, f"Error reading PDF: {str(e)}"
 
 # Validate if file size is in defined range
 def validate_file(file_path, file_size_bytes):
@@ -987,48 +957,141 @@ def main_page_content():
             except Exception as e:
                 print(f"Error reporting failed: {e}")
 
+    def calculate_estimated_time(page_count, file_size_mb=None):
+        """
+        Calculate estimated processing time based on actual performance data
+        Returns estimated time in seconds
+        """
+        # Based on real measurements:
+        # 2 pages: 45-50 seconds
+        # 4 pages: 81-90 seconds
+        # 25 pages: 848-870 seconds
+
+        if page_count <= 2:
+            base_time = 50  # Maximum for 2 pages
+        elif page_count <= 4:
+            base_time = 90  # Maximum for 4 pages
+        elif page_count <= 25:
+            # Linear interpolation between 4 pages (90s) and 25 pages (870s)
+            # Rate: (870-90)/(25-4) = ~37 seconds per page after 4 pages
+            base_time = 90 + ((page_count - 4) * 37)
+        else:
+            # Should not happen with 25-page limit, but safety fallback
+            base_time = 870
+
+        # Adjust for file complexity based on size
+        if file_size_mb:
+            if file_size_mb > 15:  # Very large files likely have complex content
+                base_time *= 1.15  # Add 15% for complexity
+            elif file_size_mb > 30:  # Extremely large files
+                base_time *= 1.25  # Add 25% for high complexity
+
+        # Ensure we don't exceed maximum bounds (25 pages = ~870 seconds = ~14.5 minutes)
+        max_time = 900  # 15 minutes maximum
+        estimated_time = min(base_time, max_time)
+
+        return int(estimated_time)
+
+    def format_time_remaining(seconds):
+        """Format seconds into human-readable time"""
+        minutes = seconds // 60
+        remaining_seconds = seconds % 60
+
+        if minutes > 0:
+            if remaining_seconds > 30:
+                minutes += 1  # Round up if more than 30 seconds
+            return f"{minutes} minute{'s' if minutes != 1 else ''}"
+        else:
+            return "less than 1 minute"
+
+    def get_step_progress_info(current_step, total_estimated_time):
+        """
+        Get progress information for current processing step
+        Returns (step_percentage, time_remaining_estimate)
+        """
+        if current_step == "extracting":
+            progress = 0.2  # Assume we're halfway through extraction
+            time_remaining = int(total_estimated_time * 0.8)
+        elif current_step == "generating":
+            progress = 0.4 + 0.25  # 40% done + halfway through generation
+            time_remaining = int(total_estimated_time * 0.35)
+        elif current_step == "creating_file":
+            progress = 0.9  # 90% done
+            time_remaining = int(total_estimated_time * 0.1)
+        else:
+            progress = 0.1
+            time_remaining = total_estimated_time
+
+        return progress, time_remaining
+
     def reset_app():
-        """Reset app to initial state"""
-        try:
-            # Clear session data
-            session.uploaded_file_path = None
-            session.uploaded_file_name = "Notes"
-            session.processing_session_id = None
-            session.processing_status = "idle"
-            session.processing_result = None
-            session.processing_error = None
+        """Reset app to initial state with confirmation"""
 
-            # Reset UI elements
-            download_button.visible = False
-            feedback_button.visible = False
-            reset_button.visible = False
-            try_again_button.visible = False
-            error_report_button.visible = False
+        def confirm_reset():
+            try:
+                # Clear session data
+                session.uploaded_file_path = None
+                session.uploaded_file_name = "Notes"
+                session.processing_session_id = None
+                session.processing_status = "idle"
+                session.processing_result = None
+                session.processing_error = None
+                session.estimated_total_time = None
 
-            # Clear animations
-            text_extraction_animation.visible = False
-            notes_generation_animation.visible = False
-            word_file_generation_animation.visible = False
+                # Reset UI elements
+                download_button.visible = False
+                feedback_button.visible = False
+                reset_button.visible = False
+                try_again_button.visible = False
+                error_report_button.visible = False
 
-            # Clear text elements
-            status_label.text = ""
-            error_label.text = ""
+                # Clear animations
+                text_extraction_animation.visible = False
+                notes_generation_animation.visible = False
+                word_file_generation_animation.visible = False
+                time_label.visible = False
 
-            # Show generate button
-            generate_button.visible = True
+                # Clear text elements
+                status_label.text = ""
+                error_label.text = ""
 
-            # Re-render upload area
-            render_upload()
+                # Show generate button
+                generate_button.visible = True
 
-            ui.notify("Ready for another file!", type='positive')
+                # Re-render upload area
+                render_upload()
 
-        except Exception as e:
-            print(f"Reset error: {e}")
-            ui.notify("Reset failed. Please refresh the page.", type='negative')
+                ui.notify("Ready for another file!", type='positive')
+
+                # Close the confirmation dialog
+                reset_dialog.close()
+
+            except Exception as e:
+                print(f"Reset error: {e}")
+                ui.notify("Reset failed. Please refresh the page.", type='negative')
+
+        def cancel_reset():
+            reset_dialog.close()
+
+        # Show confirmation dialog
+        with ui.dialog() as reset_dialog, ui.card().classes('w-full max-w-sm p-6'):
+            ui.label('Upload Another File?').classes('text-lg font-bold text-gray-800 mb-3')
+            ui.label('This will clear your current file and any processing progress.').classes(
+                'text-sm text-gray-600 mb-5')
+
+            with ui.row().classes('w-full justify-end gap-3'):
+                ui.button('Cancel', on_click=cancel_reset).props('outline').classes(
+                    'text-gray-600 border-gray-400 px-4 py-2 font-medium rounded-lg hover:bg-gray-100'
+                )
+                ui.button('Yes, Upload New File', on_click=confirm_reset).props('unelevated').classes(
+                    'bg-emerald-500 text-white px-4 py-2 font-medium rounded-lg hover:bg-emerald-600'
+                )
+
+        reset_dialog.open()
 
     def check_processing_status():
         """
-        Polling function that runs in main UI thread and can safely update UI
+        Enhanced polling function with time estimation
         """
         try:
             if not hasattr(session, 'processing_status'):
@@ -1036,29 +1099,53 @@ def main_page_content():
 
             status = session.processing_status
 
+            # Get estimated time if we have page count
+            if hasattr(session, 'estimated_total_time') and session.estimated_total_time:
+                total_time = session.estimated_total_time
+                progress, time_remaining = get_step_progress_info(status, total_time)
+                time_text = format_time_remaining(time_remaining)
+            else:
+                time_text = ""
+
             if status == "extracting":
                 text_extraction_animation.visible = True
                 notes_generation_animation.visible = False
                 word_file_generation_animation.visible = False
-                status_label.text = "Extracting content from the document..."
+                status_label.text = "Extracting content from document..."
+                if time_text:
+                    time_label.text = f"Time remaining: ~{time_text}"
+                    time_label.visible = True
+                else:
+                    time_label.visible = False
 
             elif status == "generating":
                 text_extraction_animation.visible = False
                 notes_generation_animation.visible = True
                 word_file_generation_animation.visible = False
                 status_label.text = "🛠 Generating Notes"
+                if time_text:
+                    time_label.text = f"Time remaining: ~{time_text}"
+                    time_label.visible = True
+                else:
+                    time_label.visible = False
 
             elif status == "creating_file":
                 text_extraction_animation.visible = False
                 notes_generation_animation.visible = False
                 word_file_generation_animation.visible = True
                 status_label.text = "📕 Preparing Word file..."
+                if time_text:
+                    time_label.text = f"Time remaining: ~{time_text}"
+                    time_label.visible = True
+                else:
+                    time_label.visible = False
 
             elif status == "completed":
                 # Success - show download
                 text_extraction_animation.visible = False
                 notes_generation_animation.visible = False
                 word_file_generation_animation.visible = False
+                time_label.visible = False
 
                 result = session.processing_result
 
@@ -1077,9 +1164,8 @@ def main_page_content():
                 reset_button.visible = True
                 status_label.text = "✅ Your Notes are Ready!"
 
-                # Clear processing state
                 session.processing_status = "idle"
-                return  # Stop polling
+                return
 
             elif status == "error":
                 # Error - show error UI
@@ -1087,6 +1173,7 @@ def main_page_content():
                 notes_generation_animation.visible = False
                 word_file_generation_animation.visible = False
                 generate_button.visible = False
+                time_label.visible = False
 
                 error = session.processing_error
                 if error:
@@ -1106,17 +1193,15 @@ def main_page_content():
                 error_report_button.visible = True
                 try_again_button.visible = True
 
-                # Clear processing state
                 session.processing_status = "idle"
-                return  # Stop polling
+                return
 
             # Continue polling if still processing
             if status in ["starting", "extracting", "generating", "creating_file"]:
-                ui.timer(1.0, check_processing_status, once=True)  # Check again in 1 second
+                ui.timer(1.0, check_processing_status, once=True)
 
         except Exception as e:
             print(f"Error in polling function: {e}")
-            # If polling fails, show error
             error_label.text = "⚠️ Something went wrong. Please try again."
             try_again_button.visible = True
 
@@ -1125,7 +1210,7 @@ def main_page_content():
             ui.notify(message='Please Upload a File', type='warning')
             return
 
-        ui.notify('Processing may take 5-10 minutes. Mobile devices may experience connection issues.', type='info',
+        ui.notify('Mobile devices may experience connection issues.', type='info',
                   timeout=5000)
 
         # Set up processing state
@@ -1172,7 +1257,7 @@ def main_page_content():
                         f"Unexpected extraction error: {str(e)}",
                         "extraction"
                     )
-                    # report_error(f"Unexpected Background Error: {str(e)}")
+                    report_error(f"Unexpected Background Error: {str(e)}")
 
                     session.processing_status = "error"
                     session.processing_error = {
@@ -1212,7 +1297,7 @@ def main_page_content():
                             "generation"
                         )
 
-                        # report_error("Notes Generation Error: Empty content returned")
+                        report_error("Notes Generation Error: Empty content returned")
                         session.processing_status = "error"
                         session.processing_error = {
                             "error_type": "NOTES_GENERATION_ERROR",
@@ -1229,7 +1314,7 @@ def main_page_content():
                         "generation"
                     )
 
-                    # report_error(f"Notes Generation Error: {str(e)}")
+                    report_error(f"Notes Generation Error: {str(e)}")
                     session.processing_status = "error"
                     session.processing_error = {
                         "error_type": "UNEXPECTED_ERROR",
@@ -1272,7 +1357,7 @@ def main_page_content():
                         "word_generation"
                     )
 
-                    # report_error(f"Word File Creation Error: {str(e)}")
+                    report_error(f"Word File Creation Error: {str(e)}")
                     session.processing_status = "error"
                     session.processing_error = {
                         "error_type": "WORD_FILE_ERROR",
@@ -1292,7 +1377,7 @@ def main_page_content():
                     "system"
                 )
 
-                # report_error(f"CRITICAL System Error: {str(e)}")
+                report_error(f"CRITICAL System Error: {str(e)}")
                 session.processing_status = "error"
                 session.processing_error = {
                     "error_type": "SYSTEM_ERROR",
@@ -1313,10 +1398,11 @@ def main_page_content():
 
         with ui.column().classes('w-full items-center'):
             ui.label('NotesCraft AI') \
-                .classes('text-4xl md:text-4xl font-extrabold text-emerald-800 text-center')
+                .classes(
+                'text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent text-center mb-3')
 
-            ui.label('Transform your PDFs into beautiful, structured study notes.') \
-                .classes('text-base md:text-lg text-gray-600 text-center mb-6 px-4')
+            ui.label('Transform documents into structured, comprehensive notes') \
+                .classes('text-lg md:text-xl text-gray-600 text-center mb-6 px-4 max-w-3xl')
 
         with ui.card().classes(
                 'w-full max-w-2xl sm:max-w-3xl mx-auto p-6 sm:p-8 bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl border border-gray-200 flex flex-col items-center space-y-4'):
@@ -1350,12 +1436,15 @@ def main_page_content():
                     ui.notify(f"⚠️ {error_msg}", type="negative", timeout=5000)
                     return
 
+                # Calculate estimated time for display
+                estimated_time_seconds = calculate_estimated_time(page_count, file_size / (1024 * 1024))
+                estimated_time_text = format_time_remaining(estimated_time_seconds)
+
                 def confirm_upload():
-                    # User confirmed - proceed with upload
+                    # Store in session for use during processing
+                    session.estimated_total_time = estimated_time_seconds
                     session.uploaded_file_name = temp_file_name
                     session.uploaded_file_path = temp_file_path
-
-                    dialog.close()
 
                     # Get logged in user's email
                     user_email = session.get('user_email', 'unknown')
@@ -1367,46 +1456,67 @@ def main_page_content():
                         user_email
                     )
 
-                    # Show success UI with page count
+                    # Show cleaner uploaded file UI
                     upload_container.clear()
                     with upload_container:
                         with ui.card().classes(
-                                'w-full max-w-xl p-6 sm:p-8 rounded-2xl border border-emerald-300 '
+                                'w-full max-w-md p-6 rounded-2xl border border-emerald-200 '
                                 'bg-emerald-50 text-center shadow-md flex flex-col items-center justify-center'
                         ):
-                            ui.icon("picture_as_pdf").classes("text-red-500 text-5xl sm:text-6xl")
-                            ui.label(session.uploaded_file_name).classes(
-                                "text-lg sm:text-xl font-semibold text-gray-800 mt-2")
-                            ui.label(f"✅ File Uploaded Successfully ({page_count} pages)").classes(
-                                "text-sm sm:text-base text-gray-600 mt-1")
+                            # Determine file type icon
+                            if temp_file_name.lower().endswith('.pdf'):
+                                ui.html('<div class="text-red-500 text-4xl mb-2">📄</div>')
+                            else:
+                                ui.html('<div class="text-blue-500 text-4xl mb-2">📃</div>')
+
+                            ui.label('File Uploaded').classes('text-base font-semibold text-emerald-700 mb-1')
+                            ui.label(temp_file_name).classes('text-lg font-bold text-gray-800')
 
                 def cancel_upload():
-                    # User cancelled - clean up temp file
+                    # User cancelled - clean up temp file and go back to upload area
                     os.unlink(temp_file_path)
-                    dialog.close()
-                    ui.notify("Upload cancelled", type="info")
+                    render_upload()
 
-                # Show confirmation dialog
-                with ui.dialog() as dialog, ui.card().classes('w-full max-w-md p-6'):
-                    ui.label('Confirm File Upload').classes('text-xl font-bold text-gray-800 mb-4')
+                # Show inline confirmation instead of popup
+                upload_container.clear()
+                with upload_container:
+                    with ui.card().classes(
+                            'w-full max-w-md p-6 rounded-2xl border border-gray-300 '
+                            'bg-gray-50 text-center shadow-md flex flex-col items-center justify-center'
+                    ):
+                        # File icon
+                        if temp_file_name.lower().endswith('.pdf'):
+                            ui.html('<div class="text-red-500 text-4xl mb-3">📄</div>')
+                        else:
+                            ui.html('<div class="text-blue-500 text-4xl mb-3">📃</div>')
 
-                    with ui.column().classes('w-full items-center space-y-3'):
-                        ui.icon("description").classes("text-blue-500 text-4xl")
-                        ui.label(f'File: {temp_file_name}').classes('text-lg font-medium text-gray-700')
-                        ui.label(f'Pages: {page_count}').classes('text-base text-gray-600')
-                        ui.label(f'Size: {file_size / 1024 / 1024:.1f} MB').classes('text-base text-gray-600')
+                        ui.label(temp_file_name).classes('text-lg font-bold text-gray-800 mb-3')
 
-                        ui.label('Do you want to upload this file?').classes('text-base text-gray-700 mt-4 text-center')
+                        ui.label('Please confirm this is the file you\'d like to upload').classes(
+                            'text-base font-medium text-gray-700 mb-1')
+                        ui.label('The uploading may take a few seconds depending on file size.').classes(
+                            'text-sm text-gray-600 mb-4')
 
-                        with ui.row().classes('w-full justify-center gap-4 mt-6'):
-                            ui.button('Yes, Upload', on_click=confirm_upload).props(
-                                'unelevated rounded color=green text-color=white').classes(
-                                'px-6 py-2 font-semibold')
-                            ui.button('Cancel', on_click=cancel_upload).props(
-                                'unelevated rounded color=red text-color=white').classes(
-                                'px-6 py-2 font-semibold')
+                        # File details - mobile-friendly layout
+                        with ui.column().classes('w-full mb-4 space-y-2 items-center'):
+                            # File info on one line
+                            with ui.row().classes('justify-center gap-4 text-sm text-gray-600'):
+                                ui.label(f'{page_count} pages')
+                                ui.label('•')
+                                ui.label(f'{file_size / 1024 / 1024:.1f} MB')
 
-                dialog.open()
+                            # Processing time on separate line with clear context
+                            ui.label(f'Processing time: ~{estimated_time_text}').classes(
+                                'text-sm text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full text-center')
+
+                        # Action buttons
+                        with ui.row().classes('gap-3'):
+                            ui.button('Confirm', on_click=confirm_upload).props('unelevated').classes(
+                                'bg-emerald-500 text-white px-6 py-2 font-semibold rounded-lg hover:bg-emerald-600'
+                            )
+                            ui.button('Cancel', on_click=cancel_upload).props('outline').classes(
+                                'text-gray-600 border-gray-400 px-6 py-2 font-semibold rounded-lg hover:bg-gray-100'
+                            )
 
             def render_upload():
                 upload_container.clear()
@@ -1420,7 +1530,7 @@ def main_page_content():
                             'cursor-pointer transition-all text-center shadow-md'
                     ).on('click', lambda: uploader.run_method('pickFiles')):
                         ui.icon('cloud_upload').classes('text-5xl text-emerald-600')
-                        ui.label('Click to upload your PDF or DOCX').classes('text-lg font-medium text-gray-700')
+                        ui.label('Click to upload your PDF').classes('text-lg font-medium text-gray-700')
                         ui.label('or drag and drop here').classes('text-sm text-gray-500')
 
                     # Add page limit info below the upload area
@@ -1452,11 +1562,16 @@ def main_page_content():
                     'text-gray-900 mt-3 text-center text-base sm:text-lg font-medium'
                 )
 
+                time_label = ui.label('').classes(
+                    'text-blue-600 mt-1 text-center text-sm font-semibold bg-blue-50 px-4 py-2 rounded-full inline-block'
+                )
+                time_label.visible = False
+
                 error_label = ui.label('').classes('mt-3 text-base sm:text-lg text-rose-500 font-semibold text-center')
 
             download_button = ui.button('Download Notes').props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 py-2 text-base font-medium shadow-sm transition-all duration-200 text-center')
             download_button.visible = False
 
             feedback_url = "https://forms.gle/gPHd66XpZ1nM17si9"
@@ -1467,7 +1582,7 @@ def main_page_content():
 
             feedback_button = ui.button("📝 Give Feedback", on_click=open_feedback_form).props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-3 px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 text-center')
             feedback_button.visible = False
 
             error_report_url = "https://forms.gle/Eqjk6SS1jtmWuXGg6"
@@ -1478,25 +1593,22 @@ def main_page_content():
 
             error_report_button = ui.button("🚩 Report Error ", on_click=open_error_report_form).props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-3 px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 text-center')
             error_report_button.visible = False
 
             generate_button = ui.button('🚀 Generate Notes', on_click=process_with_ai).props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-5 py-3 text-lg font-semibold shadow-sm transition-all duration-200 text-center')
 
             reset_button = ui.button('🔄 Upload Another File', on_click=reset_app).props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-3 px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 text-center')
             reset_button.visible = False
 
             try_again_button = ui.button('🔄 Try Again', on_click=reset_app).props(
                 'unelevated rounded color=indigo text-color=white').classes(
-                'w-full max-w-md mx-auto mt-4 sm:mt-6 px-4 sm:px-6 py-3 text-base sm:text-lg font-semibold shadow-sm transition-all duration-200 text-center')
+                'w-full max-w-md mx-auto mt-3 px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 text-center')
             try_again_button.visible = False
-
-
-
 
 ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)),
        storage_secret=os.environ.get('STORAGE_SECRET', secrets.token_hex(32)),

@@ -20,8 +20,6 @@ for_detail_notes = """You are a helpful study assistant. Given a chapter or sect
 
     Convert examples into simplified form and include them in the appropriate section.
 
-    Include all key definitions at the end in a "Key Definitions" section.
-
     Avoid copying long paragraphs — rephrase and simplify while preserving important details.
     
     Do not return any explanations, markdown, or extra text — return only the JSON list. """
@@ -51,3 +49,5 @@ Follow these instructions while creating the JSON:
 
 Only return a valid JSON list. Do not include any extra text, markdown, or explanation outside the JSON.
 """
+
+"""   Include all key definitions at the end in a "Key Definitions" section."""
