@@ -172,11 +172,11 @@ def send_msg_to_ai(uploaded_file,session_id= None):
         input_token = response.usage_metadata.prompt_token_count
         output_token = response.usage_metadata.candidates_token_count
         total_token = response.usage_metadata.total_token_count
-
-        print(f'\nRaw Extracted Text: {raw_text}')
-        print(f'\nInput Token of extraction: {input_token}')
-        print(f'\nOutput Token extraction: {output_token}')
-        print(f'\nTotal Token of extraction: {total_token}')
+        #
+        # print(f'\nRaw Extracted Text: {raw_text}')
+        # print(f'\nInput Token of extraction: {input_token}')
+        # print(f'\nOutput Token extraction: {output_token}')
+        # print(f'\nTotal Token of extraction: {total_token}')
 
         if session_id:
             print(f"ID: {session_id}")
@@ -196,8 +196,8 @@ def send_msg_to_ai(uploaded_file,session_id= None):
 
         cleaned = clean_raw_response_from_ai(raw_text)
 
-        print(f"Extraction Finalized: {cleaned}")
-        print("------------------------------------------------------------------------")
+        # print(f"Extraction Finalized: {cleaned}")
+        # print("------------------------------------------------------------------------")
 
         parsed = finalize_extracted_content(cleaned)
 

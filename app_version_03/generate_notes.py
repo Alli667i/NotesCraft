@@ -158,11 +158,11 @@ def generate_notes_from_content(book_text,session_id=None):
         # Combine all JSON responses
         connect_all_json = ",".join(cleaned_response)
         full_json_array = "[" + connect_all_json + "]"
-
-        print(f"\nTotal Input Tokens Used: {total_input_tokens_used}")
-        print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
-
-        print(f"\nTotal Tokens Used: {total_tokens_used}")
+        #
+        # print(f"\nTotal Input Tokens Used: {total_input_tokens_used}")
+        # print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
+        #
+        # print(f"\nTotal Tokens Used: {total_tokens_used}")
 
         if session_id:
             log_generation_complete(
@@ -195,7 +195,7 @@ def generate_notes_from_content(book_text,session_id=None):
             )
             return error_result
 
-        print(f"\nFinal Notes Generated: {generated_json_for_word}")
+        # print(f"\nFinal Notes Generated: {generated_json_for_word}")
 
         return generated_json_for_word
 
