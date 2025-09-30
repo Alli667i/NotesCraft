@@ -12,6 +12,7 @@ from test_generate_notes import generate_notes_from_content
 from extract_content import send_msg_to_ai
 from generate_word_file import generate_word_file
 
+
 from logger import (
     start_file_processing,
     log_processing_success,
@@ -1279,8 +1280,8 @@ def main_page_content():
             ui.notify(message='Please Upload a File', type='warning')
             return
 
-        ui.notify('Processing may take 5-10 minutes. Mobile devices may experience connection issues.', type='info',
-                  timeout=5000)
+        # ui.notify('Processing may take 5-10 minutes. Mobile devices may experience connection issues.', type='info',
+        #           timeout=5000)
 
         # Set up processing state
         session.processing_status = "starting"

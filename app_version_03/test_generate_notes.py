@@ -11,6 +11,11 @@ from error_handler import handle_api_error, handle_generation_error
 
 from logger import log_generation_start, log_generation_complete
 
+from datetime import datetime
+
+
+
+
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -117,18 +122,22 @@ def generate_notes_from_content(book_text,session_id=None):
 
         # Process each topic and content
         for number, (topic, content) in enumerate(book_text.items(), start=1):
+
             try:
 
                 # Smart rate limiting - only delay when needed
                 if number > 1:
                     time_since_last = time.time() - last_request_time
-                    if time_since_last < 6:  # If less than 6 seconds since last request
-                        wait_time = 6 - time_since_last
+                    if time_since_last < 7:  # If less than 7 seconds since last request
+                        wait_time = 7 - time_since_last
                         time.sleep(wait_time)
 
                 # Record when this request starts
 
                 last_request_time = time.time()
+
+                now = datetime.now()
+                print(f"Content no.{number} sent to AI at {now.strftime("%I:%M:%S")}")
 
                 response = model.generate_content(f"{topic} {content}")
                 response_validated = safe_get_text(response)
@@ -174,11 +183,11 @@ def generate_notes_from_content(book_text,session_id=None):
         # Combine all JSON responses
         connect_all_json = ",".join(cleaned_response)
         full_json_array = "[" + connect_all_json + "]"
-
-        print(f"\nTotal Input Tokens Used: {total_input_tokens_used}")
-        print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
-
-        print(f"\nTotal Tokens Used: {total_tokens_used}")
+        #
+        # print(f"\nTotal Input Tokens Used: {total_input_tokens_used}")
+        # print(f"\nTotal Output Tokens Used: {total_output_tokens_used}")
+        #
+        # print(f"\nTotal Tokens Used: {total_tokens_used}")
 
         if session_id:
             log_generation_complete(
@@ -211,7 +220,7 @@ def generate_notes_from_content(book_text,session_id=None):
             )
             return error_result
 
-        print(f"\nFinal Notes Generated: {generated_json_for_word}")
+        # print(f"\nFinal Notes Generated: {generated_json_for_word}")
 
         return generated_json_for_word
 
