@@ -17,3 +17,5 @@ google-generativeai
 googleapis-common-protos
 nicegui
 requests
+pymongo
+dnspython
