@@ -28,17 +28,31 @@ class MongoFileLogger:
             "page_count": page_count,
             "start_time": datetime.now().isoformat(),
             "status": "processing",
-            "downloaded": False
+            "downloaded": False,
+            "extraction": {},
+            "generation": {}
         }
 
         self.logs.insert_one(log_entry)
+        print(f"Started logging session: {session_id}")
         return session_id
+
+    def log_extraction_start(self, session_id):
+        """Log extraction start"""
+        self.logs.update_one(
+            {"session_id": session_id},
+            {"$set": {
+                "extraction.start_time": datetime.now().isoformat()
+            }}
+        )
+        print(f"Started extraction for session: {session_id}")
 
     def log_extraction_complete(self, session_id, input_tokens, output_tokens, total_tokens):
         """Log extraction completion"""
         self.logs.update_one(
             {"session_id": session_id},
             {"$set": {
+                "extraction.end_time": datetime.now().isoformat(),
                 "extraction.tokens": {
                     "input": input_tokens,
                     "output": output_tokens,
@@ -46,12 +60,25 @@ class MongoFileLogger:
                 }
             }}
         )
+        print(f"Completed extraction for session: {session_id} ({total_tokens} tokens)")
+
+    def log_generation_start(self, session_id, content_sections):
+        """Log generation start"""
+        self.logs.update_one(
+            {"session_id": session_id},
+            {"$set": {
+                "generation.start_time": datetime.now().isoformat(),
+                "content_sections": content_sections
+            }}
+        )
+        print(f"Started generation for session: {session_id}")
 
     def log_generation_complete(self, session_id, input_tokens, output_tokens, total_tokens):
         """Log generation completion"""
         self.logs.update_one(
             {"session_id": session_id},
             {"$set": {
+                "generation.end_time": datetime.now().isoformat(),
                 "generation.tokens": {
                     "input": input_tokens,
                     "output": output_tokens,
@@ -59,6 +86,7 @@ class MongoFileLogger:
                 }
             }}
         )
+        print(f"Completed generation for session: {session_id} ({total_tokens} tokens)")
 
     def log_processing_success(self, session_id):
         """Mark processing as successful"""
@@ -69,6 +97,7 @@ class MongoFileLogger:
                 "end_time": datetime.now().isoformat()
             }}
         )
+        print(f"Completed processing session: {session_id} (Status: success)")
 
     def log_processing_failure(self, session_id, error_type, technical_error, processing_step):
         """Log processing failure"""
@@ -84,6 +113,7 @@ class MongoFileLogger:
                 "end_time": datetime.now().isoformat()
             }}
         )
+        print(f"Failed processing session: {session_id} (Error: {error_type})")
 
     def update_download_status(self, session_id):
         """Mark file as downloaded"""
@@ -94,7 +124,7 @@ class MongoFileLogger:
 
     def read_logs(self):
         """Read all logs"""
-        return list(self.logs.find({}, {'_id': 0}))
+        return list(self.logs.find({}, {'_id': 0}).sort("start_time", -1))
 
     def get_stats_summary(self):
         """Get summary statistics"""
@@ -121,5 +151,37 @@ class MongoFileLogger:
             'downloaded': downloaded,
             'total_extraction_tokens': total_extraction_tokens,
             'total_generation_tokens': total_generation_tokens,
-            'average_processing_time': 0  # Calculate if needed
+            'average_processing_time': 0
         }
+
+
+# Create global instance and wrapper functions for backward compatibility
+file_logger = MongoFileLogger()
+
+
+def start_file_processing(filename, file_size_mb, page_count, user_email):
+    return file_logger.start_file_processing(filename, file_size_mb, page_count, user_email)
+
+
+def log_extraction_start(session_id):
+    return file_logger.log_extraction_start(session_id)
+
+
+def log_extraction_complete(session_id, input_tokens, output_tokens, total_tokens):
+    return file_logger.log_extraction_complete(session_id, input_tokens, output_tokens, total_tokens)
+
+
+def log_generation_start(session_id, content_sections):
+    return file_logger.log_generation_start(session_id, content_sections)
+
+
+def log_generation_complete(session_id, input_tokens, output_tokens, total_tokens):
+    return file_logger.log_generation_complete(session_id, input_tokens, output_tokens, total_tokens)
+
+
+def log_processing_success(session_id):
+    return file_logger.log_processing_success(session_id)
+
+
+def log_processing_failure(session_id, error_type, technical_error, processing_step):
+    return file_logger.log_processing_failure(session_id, error_type, technical_error, processing_step)

@@ -12,20 +12,17 @@ from test_generate_notes import generate_notes_from_content
 from extract_content import send_msg_to_ai
 from generate_word_file import generate_word_file
 
+from db_auth import MongoUserAuth
 
-from logger import (
+from db_logger import (
     start_file_processing,
     log_processing_success,
     log_processing_failure,
-
+    file_logger,
 )
 
 
-from db_auth import MongoUserAuth
-from db_logger import MongoFileLogger
-
 user_auth = MongoUserAuth()
-file_logger = MongoFileLogger()
 
 
 # Import libraries for page counting

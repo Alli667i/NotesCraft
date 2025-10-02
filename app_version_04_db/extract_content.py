@@ -13,7 +13,7 @@ from Ins_for_extraction import instructions
 # import our new error handler
 from error_handler import handle_api_error, handle_file_error
 
-from logger import log_extraction_start, log_extraction_complete
+from db_logger import log_extraction_start, log_extraction_complete
 
 # Load the .env file to get API key
 load_dotenv()
