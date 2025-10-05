@@ -88,7 +88,7 @@ def validate_file(file_path, file_size_bytes):
 # User Login Page UI
 def show_beautiful_user_login():
     """Simple centered login page with early access signup"""
-    ui.add_head_html('<title>NotesCraft AI - Login</title>')
+    ui.add_head_html('<title>NotesCraft AI - Login</title>', sanitize=True)
 
     # Simple CSS
     ui.add_head_html("""
@@ -106,7 +106,7 @@ def show_beautiful_user_login():
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
     </style>
-    """)
+    """, sanitize=True)
 
     with ui.column().classes('login-bg w-full h-screen flex items-center justify-center p-6'):
         with ui.column().classes('items-center w-full max-w-md'):
@@ -221,7 +221,7 @@ def admin_page():
 
 def show_beautiful_login():
     """Modern login page"""
-    ui.add_head_html('<title>Admin Login - NotesCraft AI</title>')
+    ui.add_head_html('<title>Admin Login - NotesCraft AI</title>', sanitize=True)
 
     # Add custom CSS for login
     ui.add_head_html("""
@@ -236,7 +236,7 @@ def show_beautiful_login():
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
     </style>
-    """)
+    """, sanitize=True)
 
     with ui.column().classes('login-container absolute inset-0 flex items-center justify-center'):
         with ui.card().classes('login-card w-full max-w-md p-8 shadow-2xl rounded-2xl'):
@@ -272,7 +272,7 @@ def show_beautiful_login():
 
 def show_beautiful_dashboard():
     """Beautiful modern dashboard with user management"""
-    ui.add_head_html('<title>Analytics Dashboard - NotesCraft AI</title>')
+    ui.add_head_html('<title>Analytics Dashboard - NotesCraft AI</title>', sanitize=True)
 
     # Add custom CSS for dashboard
     ui.add_head_html("""
@@ -297,7 +297,7 @@ def show_beautiful_dashboard():
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
     </style>
-    """)
+    """, sanitize=True)
 
     with ui.column().classes('dashboard-bg w-full min-h-screen'):
         # Header Section
@@ -782,9 +782,9 @@ def main_page_content():
         padding: 0;
     }
     </style>
-    """)
+    """, sanitize=True)
 
-    ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
+    ui.add_head_html('<link rel="icon" href="assets/favicon.ico">', sanitize=True)
     ui.add_head_html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
@@ -856,7 +856,7 @@ def main_page_content():
         }
     };
     </script>
-    """)
+    """, sanitize=True)
 
     session = app.storage.user
     session.uploaded_file_path = None
@@ -1390,7 +1390,7 @@ def main_page_content():
                                 'bg-emerald-50 text-center shadow-md flex flex-col items-center justify-center'
                         ):
                             # PDF file icon
-                            ui.html('<div class="text-red-500 text-4xl mb-2">📄</div>')
+                            ui.html('<div class="text-red-500 text-4xl mb-2">📄</div>', sanitize=True)
 
                             ui.label('File Uploaded').classes('text-base font-semibold text-emerald-700 mb-1')
                             ui.label(temp_file_name).classes('text-lg font-bold text-gray-800')
@@ -1408,7 +1408,7 @@ def main_page_content():
                             'bg-gray-50 text-center shadow-md flex flex-col items-center justify-center'
                     ):
                         # File icon (PDF only)
-                        ui.html('<div class="text-red-500 text-4xl mb-3">📄</div>')
+                        ui.html('<div class="text-red-500 text-4xl mb-3">📄</div>', sanitize=True)
 
                         ui.label(temp_file_name).classes('text-lg font-bold text-gray-800 mb-3')
 
@@ -1463,19 +1463,19 @@ def main_page_content():
                     text_extraction_animation = ui.html("""
                         <lottie-player src="/assets/document-search.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """)
+                    """, sanitize=True)
                     text_extraction_animation.visible = False
 
                     notes_generation_animation = ui.html("""
                         <lottie-player src="/assets/generate_notes.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """)
+                    """, sanitize=True)
                     notes_generation_animation.visible = False
 
                     word_file_generation_animation = ui.html("""
                         <lottie-player src="/assets/generate_word_file.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """)
+                    """, sanitize=True)
                     word_file_generation_animation.visible = False
 
                 status_label = ui.label('').classes(
