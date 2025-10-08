@@ -32,15 +32,7 @@ load_dotenv()  # Add this line
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))
 
 # Ensure root container fills full viewport on mobile
-ui.add_head_html("""
-<style>
-html, body, #__nicegui_root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-</style>
-""")
+
 
 # Defined range for n.o of allowed pages per generation
 MAX_PAGES = 25
@@ -935,6 +927,15 @@ def main_page():
 
 
 def main_page_content():
+    ui.add_head_html("""
+    <style>
+    html, body, #__nicegui_root {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+    """)
     ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
     ui.add_head_html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>

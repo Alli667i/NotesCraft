@@ -3,7 +3,7 @@ python-dotenv
 google-generativeai
 python-docx
 python-dotenv
-
+nicegui==1.4.25
 protobuf
 PyMuPDF==1.24.9
 
@@ -15,7 +15,6 @@ google-auth-httplib2
 google-genai
 google-generativeai
 googleapis-common-protos
-nicegui
 requests
 pymongo
 dnspython

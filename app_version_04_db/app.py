@@ -787,75 +787,7 @@ def main_page_content():
     ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
     ui.add_head_html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script>
-    // Warn user before closing tab during processing or when file is ready
-    let isProcessing = false;
-    let fileReady = false;
-    let wakeLock = null;
-
-    window.addEventListener('beforeunload', function(e) {
-        if (isProcessing) {
-            const message = 'Your document is still being processed. Leaving now will lose your progress.';
-            e.preventDefault();
-            e.returnValue = message;
-            return message;
-        } else if (fileReady) {
-            const message = 'Your notes are ready for download. Leaving now will lose your file.';
-            e.preventDefault();
-            e.returnValue = message;
-            return message;
-        }
-    });
-
-    // Functions to control the warning and wake lock
-    window.startProcessing = function() {
-        isProcessing = true;
-        fileReady = false;
-        console.log('Processing started - browser warning enabled');
-
-        // Request wake lock for mobile devices (prevents screen sleep)
-        if ('wakeLock' in navigator) {
-            navigator.wakeLock.request('screen').then(lock => {
-                wakeLock = lock;
-                console.log('Wake lock acquired');
-            }).catch(err => {
-                console.log('Wake lock not supported:', err);
-            });
-        }
-    };
-
-    window.fileReadyForDownload = function() {
-        isProcessing = false;
-        fileReady = true;
-        console.log('File ready - download warning enabled');
-
-        // Release wake lock since processing is done
-        if (wakeLock) {
-            wakeLock.release();
-            wakeLock = null;
-            console.log('Wake lock released');
-        }
-    };
-
-    window.fileDownloaded = function() {
-        isProcessing = false;
-        fileReady = false;
-        console.log('File downloaded - all warnings disabled');
-    };
-
-    window.stopProcessing = function() {
-        isProcessing = false;
-        fileReady = false;
-        console.log('Processing stopped - all warnings disabled');
-
-        // Release wake lock
-        if (wakeLock) {
-            wakeLock.release();
-            wakeLock = null;
-            console.log('Wake lock released');
-        }
-    };
-    </script>
+    
     """)
 
     session = app.storage.user
@@ -1092,7 +1024,7 @@ def main_page_content():
                 time_label.visible = False
 
                 # Disable browser close warning (fire and forget)
-                ui.timer(0.1, lambda: ui.run_javascript('window.stopProcessing()'), once=True)
+                # ui.timer(0.1, lambda: ui.run_javascript('window.stopProcessing()'), once=True)
 
                 error = session.processing_error
                 if error:
@@ -1143,7 +1075,7 @@ def main_page_content():
         status_label.text = "Extracting content from the document..."
 
         # Enable browser close warning
-        await ui.run_javascript('window.startProcessing()')
+        # await ui.run_javascript('window.startProcessing()')
 
         # Add mobile guidance notification for all users (simple approach)
         ui.notify('📱 Mobile users: Keep this tab active and screen on during processing to avoid interruptions.',
@@ -1463,19 +1395,19 @@ def main_page_content():
                     text_extraction_animation = ui.html("""
                         <lottie-player src="/assets/document-search.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """,sanitize=False)
+                    """)
                     text_extraction_animation.visible = False
 
                     notes_generation_animation = ui.html("""
                         <lottie-player src="/assets/generate_notes.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """,sanitize=False)
+                    """)
                     notes_generation_animation.visible = False
 
                     word_file_generation_animation = ui.html("""
                         <lottie-player src="/assets/generate_word_file.json" background="transparent" speed="1"
                                        style="width: 130px; height: 130px;" loop autoplay></lottie-player>
-                    """,sanitize=False)
+                    """)
                     word_file_generation_animation.visible = False
 
                 status_label = ui.label('').classes(
