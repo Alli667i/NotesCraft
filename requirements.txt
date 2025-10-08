@@ -3,7 +3,7 @@ python-dotenv
 google-generativeai
 python-docx
 python-dotenv
-nicegui==1.4.25
+nicegui~=1.4.25
 protobuf
 PyMuPDF==1.24.9
 
