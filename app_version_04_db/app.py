@@ -7,8 +7,12 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import secrets
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()  # Add this line
+
 from nicegui import ui, app, background_tasks, run
-from test_generate_notes import generate_notes_from_content
+from generate_notes import generate_notes_from_content
 from extract_content import send_msg_to_ai
 from generate_word_file import generate_word_file
 
@@ -29,9 +33,6 @@ user_auth = MongoUserAuth()
 import fitz  # PyMuPDF for PDFs
 import hashlib
 import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Add this line
 
 
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))

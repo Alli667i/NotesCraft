@@ -9,7 +9,7 @@ import json
 # import our new error handler
 from error_handler import handle_api_error, handle_generation_error
 
-from logger import log_generation_start, log_generation_complete
+from db_logger import log_generation_start, log_generation_complete
 
 from datetime import datetime
 

@@ -1,3 +1,5 @@
+import time
+
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -8,6 +10,11 @@ import json
 from error_handler import handle_api_error, handle_generation_error
 
 from db_logger import log_generation_start, log_generation_complete
+
+from datetime import datetime
+
+
+
 
 load_dotenv()
 
@@ -111,9 +118,27 @@ def generate_notes_from_content(book_text,session_id=None):
         if session_id:
             log_generation_start(session_id,len(book_text))
 
+        last_request_time = 0
+
         # Process each topic and content
         for number, (topic, content) in enumerate(book_text.items(), start=1):
+
             try:
+
+                # Smart rate limiting - only delay when needed
+                if number > 1:
+                    time_since_last = time.time() - last_request_time
+                    if time_since_last < 7:  # If less than 7 seconds since last request
+                        wait_time = 7 - time_since_last
+                        time.sleep(wait_time)
+
+                # Record when this request starts
+
+                last_request_time = time.time()
+
+                now = datetime.now()
+                print(f"Content no.{number} sent to AI at {now.strftime("%I:%M:%S")}")
+
                 response = model.generate_content(f"{topic} {content}")
                 response_validated = safe_get_text(response)
 
