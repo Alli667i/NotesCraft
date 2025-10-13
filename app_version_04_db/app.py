@@ -89,6 +89,12 @@ def validate_file(file_path, file_size_bytes):
 # User Login Page UI
 def show_beautiful_user_login():
     """Simple centered login page with early access signup"""
+    ui.add_head_html('''
+        <link rel="manifest" href="assets/manifest.json">
+        <link rel="icon" href="assets/favicon.ico">
+        <meta name="theme-color" content="#ffffff">
+        ''')
+
     ui.add_head_html('<title>NotesCraft AI - Login</title>')
 
     # Simple CSS
@@ -785,7 +791,13 @@ def main_page_content():
     </style>
     """)
 
-    ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
+    # ui.add_head_html('<link rel="icon" href="assets/favicon.ico">')
+    ui.add_head_html('''
+    <link rel="manifest" href="assets/manifest.json">
+    <link rel="icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#ffffff">
+    ''')
+
     ui.add_head_html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     
