@@ -25,15 +25,12 @@ from db_logger import (
     file_logger,
 )
 
-
 user_auth = MongoUserAuth()
-
 
 # Import libraries for page counting
 import fitz  # PyMuPDF for PDFs
 import hashlib
 import os
-
 
 app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'))
 
@@ -41,8 +38,9 @@ app.add_static_files('/assets', os.path.join(os.path.dirname(__file__), 'assets'
 
 
 # Defined range for n.o of allowed pages per generation
-MAX_PAGES = 25
+MAX_PAGES = 35
 MAX_FILE_SIZE_MB = 50  # Additional safety check
+
 
 # Count number of pages in the uploaded file
 def count_pages(file_path):
@@ -57,6 +55,7 @@ def count_pages(file_path):
         return page_count, None
     except Exception as e:
         return 0, f"Error reading PDF: {str(e)}"
+
 
 # Validate if file size is in defined range
 def validate_file(file_path, file_size_bytes):
@@ -82,8 +81,6 @@ def validate_file(file_path, file_size_bytes):
 
 
 # Add Users
-
-
 
 
 # User Login Page UI
@@ -176,6 +173,8 @@ def show_beautiful_user_login():
 def user_login_page():
     """Simple login page"""
     show_beautiful_user_login()
+
+
 # Verify Access to admin panel
 
 class SecureAdminAuth:
@@ -209,7 +208,6 @@ class SecureAdminAuth:
 
 # Create the auth system
 admin_auth = SecureAdminAuth()
-
 
 
 # Admin Panel UI
@@ -800,7 +798,7 @@ def main_page_content():
 
     ui.add_head_html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    
+
     """)
 
     session = app.storage.user
@@ -1338,7 +1336,10 @@ def main_page_content():
                             ui.html('<div class="text-red-500 text-4xl mb-2">📄</div>')
 
                             ui.label('File Uploaded').classes('text-base font-semibold text-emerald-700 mb-1')
-                            ui.label(temp_file_name).classes('text-lg font-bold text-gray-800')
+                            # ui.label(temp_file_name).classes('text-lg font-bold text-gray-800')
+                            ui.label(temp_file_name) \
+                                .classes('text-lg font-bold text-gray-800 truncate w-full max-w-[250px]') \
+                                .tooltip(temp_file_name)
 
                 def cancel_upload():
                     # User cancelled - clean up temp file and go back to upload area
@@ -1355,7 +1356,10 @@ def main_page_content():
                         # File icon (PDF only)
                         ui.html('<div class="text-red-500 text-4xl mb-3">📄</div>')
 
-                        ui.label(temp_file_name).classes('text-lg font-bold text-gray-800 mb-3')
+                        # ui.label(temp_file_name).classes('text-lg font-bold text-gray-800 mb-3')
+                        ui.label(temp_file_name) \
+                            .classes('text-lg font-bold text-gray-800 mb-3 truncate max-w-full sm:max-w-[300px]') \
+                            .tooltip(temp_file_name)
 
                         ui.label('Please confirm this is the file you\'d like to upload').classes(
                             'text-base font-medium text-gray-700 mb-1')
@@ -1490,7 +1494,6 @@ def main_page_content():
                 'unelevated rounded color=indigo text-color=white').classes(
                 'w-full max-w-md mx-auto mt-3 px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 text-center')
             try_again_button.visible = False
-
 
 
 ui.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)),
