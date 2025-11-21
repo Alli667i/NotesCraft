@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Add this line
 
 from nicegui import ui, app, background_tasks, run
-from generate_notes import generate_notes_from_content
+from temp_gen_notes import generate_notes_from_content
 from extract_content import send_msg_to_ai
 from generate_word_file import generate_word_file
 

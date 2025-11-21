@@ -51,3 +51,38 @@ Only return a valid JSON list. Do not include any extra text, markdown, or expla
 """
 
 """   Include all key definitions at the end in a "Key Definitions" section."""
+
+test_prompt = """You are a study-notes assistant. Transform the given textbook chapter/section into complete, simplified, easy-to-understand notes without missing any important point.
+
+Return ONLY a JSON list in this format:
+
+[
+  {"type": "heading", "text": "..."},
+  {"type": "subheading", "text": "..."},
+  {"type": "paragraph", "text": "..."},
+  {"type": "bullet", "text": "..."}
+]
+
+Rules for Output Quality
+
+Use the chapter title as the main "heading".
+
+Cover all key ideas from the content — nothing important should be skipped.
+
+Rewrite everything in simple, student-friendly language.
+
+Keep explanations short, clear, and non-technical, but still complete.
+
+Summarize the introduction in straightforward wording (add small examples when useful).
+
+Use "subheading" for each major topic or section.
+
+Use "paragraph" for brief explanations (2–3 lines max, not long).
+
+Break complex ideas into "bullet" items for easier understanding.
+
+Convert examples into simplified, easy versions with clear meaning.
+
+Do not copy long sentences from the original text.
+
+Do not include any extra text, notes, or markdown — only the JSON list."""

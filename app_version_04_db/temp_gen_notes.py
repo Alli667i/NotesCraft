@@ -3,10 +3,10 @@ import time
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-from Ins_for_notes_generation import for_detail_notes
+from Ins_for_notes_generation import test_prompt
 import re
 import json
-# import our new error handler
+
 from error_handler import handle_api_error, handle_generation_error
 
 from db_logger import log_generation_start, log_generation_complete
@@ -105,7 +105,7 @@ def generate_notes_from_content(book_text,session_id=None):
 
         model = genai.GenerativeModel(
             model_name="gemini-2.5-flash",
-            system_instruction=for_detail_notes
+            system_instruction=test_prompt
         )
 
         collect_response = []  # Store all LLM responses
@@ -220,7 +220,9 @@ def generate_notes_from_content(book_text,session_id=None):
             )
             return error_result
 
-        # print(f"\nFinal Notes Generated: {generated_json_for_word}")
+
+
+        print(f"Notes Generated: {generated_json_for_word}")
 
         return generated_json_for_word
 

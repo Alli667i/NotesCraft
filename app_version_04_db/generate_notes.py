@@ -220,7 +220,9 @@ def generate_notes_from_content(book_text,session_id=None):
             )
             return error_result
 
-        # print(f"\nFinal Notes Generated: {generated_json_for_word}")
+
+
+        print(f"Notes Generated: {generated_json_for_word}")
 
         return generated_json_for_word
 
