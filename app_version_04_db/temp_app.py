@@ -145,29 +145,35 @@ def show_beautiful_user_login():
                             # password_input.value = ''
                             # password_input.run_method('focus')
 
+                    ui.label("Enter the email you used to join early access.").classes(
+                        'text-xs text-gray-500 text-center mt-2')
+
+                    def join_early_access():
+                        ui.run_javascript("window.open('https://notescraftai.com/#signup', '_blank')")
+
                     # Login button
-                    ui.button('Sign In', on_click=handle_login).props('unelevated size=lg').classes(
+                    ui.button('Login', on_click=handle_login).props('unelevated size=lg').classes(
+                        'w-full bg-emerald-500 text-white py-3 text-lg font-semibold rounded-xl hover:bg-emerald-600'
+                    )
+
+                    ui.button('Signup', on_click=join_early_access).props('unelevated size=lg').classes(
                         'w-full bg-emerald-500 text-white py-3 text-lg font-semibold rounded-xl hover:bg-emerald-600'
                     )
 
                     # password_input.on('keydown.enter', handle_login)
 
-                    # Small text below login form
-                    ui.label("Use credentials given to you when you joined early access").classes(
-                        'text-xs text-gray-500 text-center mt-2')
+
 
             # Early access signup card
-            with ui.card().classes('signup-card w-full p-6 mt-6 shadow-md rounded-2xl'):
-                with ui.column().classes('w-full items-center space-y-4'):
-                    ui.label("Don't have early access yet?").classes('text-lg font-semibold text-gray-800 text-center')
+            # with ui.card().classes('signup-card w-full p-6 mt-6 shadow-md rounded-2xl'):
+            #     with ui.column().classes('w-full items-center space-y-4'):
+            #         ui.label("Don't have early access yet?").classes('text-lg font-semibold text-gray-800 text-center')
+            #
 
-                    def join_early_access():
-                        ui.run_javascript("window.open('https://notescraftai.com/#early-access', '_blank')")
-
-                    ui.button('Join Early Access Now', on_click=join_early_access).props('unelevated size=lg').classes(
-                        'bg-blue-500 text-white px-8 py-3 text-lg font-semibold rounded-xl hover:bg-blue-600 transition-colors'
-                    )
-
+            #         ui.button('Join Early Access Now', on_click=join_early_access).props('unelevated size=lg').classes(
+            #             'bg-blue-500 text-white px-8 py-3 text-lg font-semibold rounded-xl hover:bg-blue-600 transition-colors'
+            #         )
+            #
 
 @ui.page('/login')
 def user_login_page():
