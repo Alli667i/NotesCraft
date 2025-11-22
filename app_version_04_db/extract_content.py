@@ -196,11 +196,11 @@ def send_msg_to_ai(uploaded_file,session_id= None):
 
         cleaned = clean_raw_response_from_ai(raw_text)
 
-        print("------------------------------------------------------------------------")
+        # print("------------------------------------------------------------------------")
 
-        print(f"Text Extracted : {cleaned}")
+        # print(f"Text Extracted : {cleaned}")
 
-        print("------------------------------------------------------------------------")
+        # print("------------------------------------------------------------------------")
 
         parsed = finalize_extracted_content(cleaned)
 

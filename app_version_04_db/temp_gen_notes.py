@@ -137,7 +137,7 @@ def generate_notes_from_content(book_text,session_id=None):
                 last_request_time = time.time()
 
                 now = datetime.now()
-                print(f"Content no.{number} sent to AI at {now.strftime("%I:%M:%S")}")
+                # print(f"Content no.{number} sent to AI at {now.strftime("%I:%M:%S")}")
 
                 response = model.generate_content(f"{topic} {content}")
                 response_validated = safe_get_text(response)
@@ -222,7 +222,7 @@ def generate_notes_from_content(book_text,session_id=None):
 
 
 
-        print(f"Notes Generated: {generated_json_for_word}")
+        # print(f"Notes Generated: {generated_json_for_word}")
 
         return generated_json_for_word
 
